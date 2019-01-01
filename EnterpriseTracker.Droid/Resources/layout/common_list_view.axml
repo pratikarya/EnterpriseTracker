@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/llMain"
+  android:orientation="vertical"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:background="#ffffff">
+
+  <LinearLayout
+    android:id="@+id/llTop"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp  "
+    android:background="@color/greyBackgroundColor"
+    android:gravity="center">
+
+    <ImageButton
+      android:id="@+id/btnCancel"
+      android:layout_width="12dp"
+      android:layout_height="12dp"
+      android:src="@drawable/ic_cancel"/>
+    
+    <TextView
+      android:id="@+id/txtTitle"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:textSize="16dp"
+      android:layout_weight="1"
+      android:gravity="center"/>
+
+    <View
+      android:layout_width="12dp"
+      android:layout_height="12dp"/>
+    
+  </LinearLayout>
+  
+  <EditText
+    android:id="@+id/etSearch"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:textColor="@color/textColor"
+    android:hint="Search"
+    android:textColorHint="@color/colorPlaceholder"
+    android:textSize="14dp"/>
+    
+  <ListView
+    android:id="@+id/lvValues"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="5dp"
+    android:layout_weight="1"/>
+
+</LinearLayout>

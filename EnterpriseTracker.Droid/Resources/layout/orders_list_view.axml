@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:local="http://schemas.android.com/apk/res-auto"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:orientation="vertical"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+  android:background="@color/textColorWhite">
+  
+  <include
+    android:id="@+id/toolbar"
+    layout="@layout/toolbar" />
+      
+  <android.support.design.widget.CoordinatorLayout
+	  android:layout_width="match_parent"
+	  android:layout_height="match_parent">
+    
+    <LinearLayout
+      android:id="@+id/llMain"
+      android:orientation="vertical"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+      
+      <MvvmCross.Droid.Support.V4.MvxSwipeRefreshLayout
+        android:id="@+id/refresher"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        local:MvxBind="Refreshing IsRefreshing; RefreshCommand ReloadCommand">
+        
+        <MvvmCross.Droid.Support.V7.RecyclerView.MvxRecyclerView
+          android:id="@+id/rvOrders"
+          android:scrollbars="vertical"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_weight="1"
+          android:layout_marginTop="5dp"
+          android:layout_marginBottom="5dp"
+          local:MvxItemTemplate="@layout/order_cellview"
+          local:MvxBind="ItemsSource Orders; ItemClick SelectedOrderCommand" />
+      
+      </MvvmCross.Droid.Support.V4.MvxSwipeRefreshLayout>
+    
+    </LinearLayout>
+    
+    <android.support.design.widget.FloatingActionButton
+      android:id="@+id/fabCreateOrder"
+      app:layout_behavior="@string/fab_scroll_translation_autohide_behavior"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_margin="@dimen/fab_create_order_margin"
+      android:layout_gravity="bottom|right"
+      android:src="@drawable/plus"
+      local:elevation="4dp"
+      local:rippleColor="@color/colorPrimaryDark" />
+  
+  </android.support.design.widget.CoordinatorLayout>
+
+</LinearLayout>

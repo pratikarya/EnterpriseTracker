@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:local="http://schemas.android.com/apk/res-auto"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:orientation="vertical"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+  android:background="@color/textColorWhite">
+
+  <include
+    android:id="@+id/toolbar"
+    layout="@layout/toolbar" />
+
+  <LinearLayout
+    android:id="@id/llContainer"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    android:padding="5dp">
+    
+  <MvvmCross.Droid.Support.V7.RecyclerView.MvxRecyclerView
+    android:id="@+id/rvOrderItems"
+    android:scrollbars="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    android:layout_marginBottom="5dp"
+    local:MvxItemTemplate="@layout/ordeitem_cellview"
+    local:MvxBind="ItemsSource CurrentOrder.Items; ItemClick SelectOrderItemCommand" />
+    
+  <!--<EditText
+    android:id="@+id/etAdvanceAmount"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:textSize="16dp"
+    android:textColor="@color/textColor"
+    android:hint="Advance amount"
+    local:MvxBind="Text CurrentOrder.AdvanceAmount"/>
+
+  <LinearLayout
+    android:id="@+id/llBalance"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="5dp"
+    android:gravity="center">
+
+    <TextView
+      android:id="@+id/txtBalance"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="Balance amount : "
+      android:layout_weight="1"
+      android:textSize="16dp"
+      android:textStyle="bold"
+      android:textColor="@color/textColor"/>
+
+    <TextView
+      android:id="@+id/txtTotalValue"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textSize="16dp"
+      android:textStyle="bold"
+      android:textColor="@color/textColor"
+      local:MvxBind="Text CurrentOrder.BalanceAmount"/>
+
+  </LinearLayout>-->
+    
+  <LinearLayout
+    android:id="@+id/llTotal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="5dp"
+    android:gravity="center">
+    
+    <TextView
+      android:id="@+id/txtTotal"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="Order Total : "
+      android:layout_weight="1"
+      android:textSize="16dp"
+      android:textStyle="bold"
+      android:textColor="@color/textColor"/>
+    
+    <TextView
+      android:id="@+id/txtTotalValue"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textSize="16dp"
+      android:textStyle="bold"
+      android:textColor="@color/textColor"
+      local:MvxBind="Text CurrentOrder.TotalAmount"/>
+    
+  </LinearLayout>
+  
+  <!--<LinearLayout
+    android:id="@+id/llCustomerDetails"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:gravity="center">
+
+    <EditText
+      android:id="@+id/etContactNumber"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:visibility="gone"
+      android:textSize="16dp"
+      android:textColor="@color/textColor"
+      android:hint="Contact Number"
+      local:MvxBind="Text CurrentOrder.ContactNumber"/>
+
+    <LinearLayout
+      android:id="@+id/llContactNumber"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="5dp"
+      android:visibility="gone"
+      android:gravity="center">
+
+      <TextView
+        android:id="@+id/txtContactNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Contact number : "
+        android:layout_weight="1"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:textColor="@color/textColor"/>
+
+      <TextView
+        android:id="@+id/txtContactNumberValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:textColor="@color/textColor"
+        local:MvxBind="Text CurrentOrder.ContactNumber"/>
+
+    </LinearLayout>
+
+  </LinearLayout>-->
+  
+  <Button
+    android:id="@+id/btnAddItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="5dp"
+    android:text="Add Item"
+    local:MvxBind="Click AddOrderItemCommand"/>
+  
+  <Button
+    android:id="@+id/btnCreateOrder"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    local:MvxBind="Click UpdateOrderCommand; Enabled IsOrderUpdated; Text ButtonText"/>
+    
+  </LinearLayout>
+
+</LinearLayout>

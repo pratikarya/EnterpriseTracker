@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:local="http://schemas.android.com/apk/res-auto"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:id="@+id/llMain"
+  android:orientation="vertical"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+  android:focusable="true"
+  android:focusableInTouchMode="true">
+
+  <include
+    android:id="@+id/toolbar"
+    layout="@layout/toolbar" />
+
+  <ScrollView
+    android:id="@+id/svConatainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="1">
+
+    <LinearLayout
+      android:id="@+id/llContainer"
+      android:orientation="vertical"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:padding="5dp"
+      android:background="@color/textColorWhite"/>
+    
+  </ScrollView>
+  
+  <Button
+    android:id="@+id/btnCreate"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    local:MvxBind="Click CreateCommand; Text ButtonText"/>
+
+</LinearLayout>

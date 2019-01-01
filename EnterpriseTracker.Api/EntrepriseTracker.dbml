@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="EnterpriseTracker" Class="EntrepriseTrackerDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=DESKTOP-9TKGH8O\SQLEXPRESS;Initial Catalog=EnterpriseTracker;User ID=sa" SettingsObjectName="EnterpriseTracker.Api.Properties.Settings" SettingsPropertyName="EnterpriseTrackerConnectionString1" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.tbl_Category" Member="tbl_Categories">
+    <Type Name="tbl_Category">
+      <Column Name="Id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Details" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Type" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Status" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="tbl_Category_tbl_Product" Member="tbl_Products" ThisKey="Id" OtherKey="CategoryId" Type="tbl_Product" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_Ingredient" Member="tbl_Ingredients">
+    <Type Name="tbl_Ingredient">
+      <Column Name="Id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_Order" Member="tbl_Orders">
+    <Type Name="tbl_Order">
+      <Column Name="Id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="OwnerId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="CustomerId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="ProductId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="Units" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="Time" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Message" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="Details" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="Images" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="PrintCharge" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="AdditionalCharge" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
+      <Column Name="DeliveryCharge" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="DesignCharge" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="AdvanceAmount" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="TotalAmount" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="ModifiedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Status" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="tbl_Product_tbl_Order" Member="tbl_Product" ThisKey="ProductId" OtherKey="Id" Type="tbl_Product" IsForeignKey="true" />
+      <Association Name="tbl_User_tbl_Order" Member="tbl_User" ThisKey="CustomerId" OtherKey="Id" Type="tbl_User" IsForeignKey="true" />
+      <Association Name="tbl_User_tbl_Order1" Member="tbl_User1" ThisKey="OwnerId" OtherKey="Id" Type="tbl_User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_Product" Member="tbl_Products">
+    <Type Name="tbl_Product">
+      <Column Name="Id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="CategoryId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="Unit" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="Price" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Association Name="tbl_Product_tbl_Order" Member="tbl_Orders" ThisKey="Id" OtherKey="ProductId" Type="tbl_Order" />
+      <Association Name="tbl_Category_tbl_Product" Member="tbl_Category" ThisKey="CategoryId" OtherKey="Id" Type="tbl_Category" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_User" Member="tbl_Users">
+    <Type Name="tbl_User">
+      <Column Name="Id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Type" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="HasSignedUp" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="FirstName" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="LastName" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Email" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="Password" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Mobile" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Address" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="Status" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="tbl_User_tbl_Order" Member="tbl_Orders" ThisKey="Id" OtherKey="CustomerId" Type="tbl_Order" />
+      <Association Name="tbl_User_tbl_Order1" Member="tbl_Orders1" ThisKey="Id" OtherKey="OwnerId" Type="tbl_Order" />
+    </Type>
+  </Table>
+</Database>
