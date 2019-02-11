@@ -1,11 +1,13 @@
 ﻿using EnterpriseTracker.Core.AppContents.Category.Contract.Dto;
 using EnterpriseTracker.Core.AppContents.Order.Contract.Dto;
+using EnterpriseTracker.Core.AppContents.Product.Contract.Dto;
 using EnterpriseTracker.Core.RealmObjects;
 using EnterpriseTracker.Core.UI;
 using EnterpriseTracker.Core.ViewModels.Common;
 using MvvmCross.Commands;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -15,7 +17,6 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
     {
         public IRealmService RealmService { get; set; }
         public IUIService UIService { get; set; }
-        string message = "";
 
         public OrderItemDetailViewModel(IRealmService realmService, IUIService uiService)
         {
@@ -93,6 +94,41 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
             }
         }
 
+        private CategoryDto _selectedCategory;
+        public CategoryDto SelectedCategory
+        {
+            get { return _selectedCategory; }
+            set
+            {
+                _selectedCategory = value;
+                Products = value.Products;
+                SelectedProduct = Products.First();
+                RaisePropertyChanged(() => SelectedCategory);
+            }
+        }
+
+        private List<ProductDto> _products;
+        public List<ProductDto> Products
+        {
+            get { return _products; }
+            set
+            {
+                _products = value;
+                RaisePropertyChanged(() => Products);
+            }
+        }
+
+        private ProductDto _selectedProduct;
+        public ProductDto SelectedProduct
+        {
+            get { return _selectedProduct; }
+            set
+            {
+                _selectedProduct = value;
+                RaisePropertyChanged(() => SelectedProduct);
+            }
+        }
+
         private MvxCommand _createCommand;
         public ICommand CreateCommand
         {
@@ -110,6 +146,8 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
                 UIService.ShowDialog(true);
                 try
                 {
+                    CurrentOrderItem.Product = SelectedProduct;
+
                     //TODO : Proper order adding validations. For example id check, quantity check, product check, message check, etc.
                     if (ValidateOrderItem())
                     {
@@ -117,10 +155,6 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
                             CurrentOrderItem.CreatedDate = DateTime.Now;
                         CurrentOrderItem.ModifiedDate = DateTime.Now;
                         NavigationService.Close(this, CurrentOrderItem);
-                    }
-                    else
-                    {
-                        UIService.ShowErrorDialog(message);
                     }
                 }
                 catch (Exception ex)
@@ -133,14 +167,17 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
 
         private bool ValidateOrderItem()
         {
-            bool isValid = false;
+            string message = "";
 
             if (CurrentOrderItem.Units == 0.0f)
             {
                 message += "Quantity must be specified.\n";
             }
 
-            isValid = string.IsNullOrEmpty(message);
+            var isValid = string.IsNullOrEmpty(message);
+
+            if(!isValid)
+                UIService.ShowErrorDialog(message);
 
             return isValid;
         }
@@ -163,9 +200,10 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
                 try
                 {
                     var res = RealmService.GetCategories();
-                    if (res.IsValid)
+                    if (res?.IsValid == true && res.Result != null)
                     {
                         Categories = res.Result;
+                        InitDefaults();
                     }
                 }
                 catch (Exception ex)
@@ -174,6 +212,35 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
                 }
                 UIService.ShowDialog(false);
             });
+        }
+
+        private void InitDefaults()
+        {
+            if(IsNewOrderItem)
+            {
+                SelectedCategory = Categories.First();                
+                SelectedProduct = Products.First();
+                CurrentOrderItem.Units = 0.5f;
+                CurrentOrderItem.Time = DateTime.Now;
+            }
+            else
+            {
+                SelectedCategory = Categories.First(x => x.Products.Any(y => y.Id == CurrentOrderItem.Product.Id));
+                SelectedProduct = Products.First(x => x.Id == CurrentOrderItem.Product.Id);
+
+                var selectedCatIndex = Categories.IndexOf(SelectedCategory);
+                var selectedProdIndex = Products.IndexOf(SelectedProduct);
+
+                Categories.RemoveAt(selectedCatIndex);
+                Categories.Insert(0, SelectedCategory);
+
+                Products.RemoveAt(selectedProdIndex);
+                Products.Insert(0, SelectedProduct);
+
+                SelectedCategory = Categories.First();
+                SelectedProduct = Products.First();
+            }
+            RaisePropertyChanged(() => CurrentOrderItem);
         }
 
         private MvxCommand _backCommand;

@@ -8,14 +8,15 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
   android:focusable="true"
-  android:focusableInTouchMode="true">
+  android:focusableInTouchMode="true"
+  android:background="@color/textColorWhite">
 
   <include
     android:id="@+id/toolbar"
     layout="@layout/toolbar" />
 
   <ScrollView
-    android:id="@+id/svConatainer"
+    android:id="@+id/svContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_weight="1">
@@ -25,11 +26,153 @@
       android:orientation="vertical"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:padding="5dp"
-      android:background="@color/textColorWhite"/>
-    
+      android:padding="5dp">
+
+      <LinearLayout
+        android:id="@+id/llCategory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginBottom="5dp">
+
+        <TextView
+          android:id="@+id/txtCategory"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_weight="2"
+          android:layout_marginRight="5dp"
+          android:textSize="16dp"
+          android:text="Category"
+          android:textColor="@color/highlightColor"/>
+
+        <mvvmcross.platforms.android.binding.views.MvxSpinner
+          android:id="@+id/spnCategory"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          local:MvxItemTemplate="@layout/spn_item_template"
+          local:MvxBind="ItemsSource Categories; SelectedItem SelectedCategory"/>
+
+      </LinearLayout>  
+
+      <LinearLayout
+        android:id="@+id/llProduct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginBottom="5dp">
+
+        <TextView
+          android:id="@+id/txtProduct"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_weight="2"
+          android:layout_marginRight="5dp"
+          android:textSize="16dp"
+          android:text="Product"
+          android:textColor="@color/highlightColor"/>
+
+        <mvvmcross.platforms.android.binding.views.MvxSpinner
+          android:id="@+id/spnProduct"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          local:MvxItemTemplate="@layout/spn_item_template"
+          local:MvxBind="ItemsSource Products; SelectedItem SelectedProduct"/>
+
+      </LinearLayout>
+
+      <LinearLayout
+        android:id="@+id/llDateTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginBottom="5dp">
+
+        <TextView
+          android:id="@+id/txtDateTime"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_weight="2"
+          android:layout_marginRight="5dp"
+          android:textSize="16dp"
+          android:text="Date and Time"
+          android:textColor="@color/highlightColor"/>
+
+        <Edittext
+          android:id="@+id/etDateTime"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:textSize="14dp"
+          android:textColor="@color/textColor"
+          android:hint="Date and Time"/>/>
+
+      </LinearLayout>
+
+      <LinearLayout
+        android:id="@+id/llUnits"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginBottom="5dp">
+
+        <TextView
+          android:id="@+id/txtUnits"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_weight="2"
+          android:layout_marginRight="5dp"
+          android:textSize="16dp"
+          android:text="Units"
+          android:textColor="@color/highlightColor"/>
+
+        <Edittext
+          android:id="@+id/etUnits"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:textSize="14dp"
+          android:textColor="@color/textColor"
+          android:inputType="numberDecimal"
+          android:hint="Units"
+          local:MvxBind="Text CurrentOrderItem.Units"/>
+
+      </LinearLayout>
+      
+      <LinearLayout
+        android:id="@+id/llMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginBottom="5dp">
+
+        <TextView
+          android:id="@+id/txtMessage"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_weight="2"
+          android:layout_marginRight="5dp"
+          android:textSize="16dp"
+          android:text="Message"
+          android:textColor="@color/highlightColor"/>
+
+        <Edittext
+          android:id="@+id/etMessage"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:textSize="14dp"
+          android:textColor="@color/textColor"
+          android:hint="Message"
+          local:MvxBind="Text CurrentOrderItem.Message"/>
+
+      </LinearLayout>
+      
+    </LinearLayout>
+
   </ScrollView>
-  
+
   <Button
     android:id="@+id/btnCreate"
     android:layout_width="match_parent"

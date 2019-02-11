@@ -29,7 +29,7 @@ namespace EnterpriseTracker.Droid.UI
 
         public void ShowErrorDialog(string message)
         {
-            AndroidHUD.AndHUD.Shared.ShowError(AndroidHelper.CurrentActivity, message, timeout: new TimeSpan(0,0,3));
+            AndroidHUD.AndHUD.Shared.ShowError(AndroidHelper.CurrentActivity, message, timeout: TimeSpan.FromSeconds(3));
         }
 
         public void ShowNotification(string title = "", string message = "", string icon = "")

@@ -5,6 +5,8 @@ using EnterpriseTracker.Core.Utility;
 using EnterpriseTracker.Droid.UI;
 using EnterpriseTracker.Droid.Utility;
 using MvvmCross;
+using MvvmCross.Binding.Bindings.Target.Construction;
+using MvvmCross.Droid.Support.V7.AppCompat;
 using MvvmCross.Logging;
 using MvvmCross.Platforms.Android.Core;
 using MvvmCross.Platforms.Android.Presenters;
@@ -38,6 +40,12 @@ namespace EnterpriseTracker.Droid
         protected override IMvxAndroidViewPresenter CreateViewPresenter()
         {
             return new PhonePresenter(AndroidViewAssemblies);
+        }
+
+        protected override void FillTargetFactories(IMvxTargetBindingFactoryRegistry registry)
+        {
+            base.FillTargetFactories(registry);
+            MvxAppCompatSetupHelper.FillTargetFactories(registry);
         }
     }
 }

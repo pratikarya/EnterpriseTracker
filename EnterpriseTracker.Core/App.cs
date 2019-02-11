@@ -221,7 +221,28 @@ namespace EnterpriseTracker.Core
                         }
                     }
                 };
+                var chocolateCategory = new CategoryDto
+                {
+                    Id = Guid.Empty,
+                    Name = "Chocolates",
+                    Status = CategoryStatus.Active,
+                    Products = new List<ProductDto>
+                    {
+                        new ProductDto
+                        {
+                            Id = Guid.Empty,
+                            IsVeg = true,
+                            Status = ProductStatus.Active,
+                            Name = "Dry fruit chocolates",
+                            Price = 1000,
+                            Unit = "Kg"
+                        }
+                    },
+                    Desc = "Almond and Cashew rocks."
+                };
+
                 realmService.CreateCategory(new SearchDto<CategoryDto> { RequestDto = cakeCategory });
+                realmService.CreateCategory(new SearchDto<CategoryDto> { RequestDto = chocolateCategory });
                 realmService.SetValue("AppContentsInitKey", "true");
             }
         }
