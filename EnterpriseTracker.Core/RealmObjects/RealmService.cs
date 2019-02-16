@@ -257,7 +257,7 @@ namespace EnterpriseTracker.Core.RealmObjects.Order
             try
             {
                 var realm = Realm.GetInstance(Config);
-                var realmOrders = realm.All<OrderRealmDto>().ToList();
+                var realmOrders = realm.All<OrderRealmDto>().OrderByDescending(x => x.Items.Max(y => y.Time)).ToList();
                 List<OrderDto> orders = new List<OrderDto>();
                 foreach (var realmOrder in realmOrders)
                 {

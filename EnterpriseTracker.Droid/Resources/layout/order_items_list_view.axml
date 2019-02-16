@@ -19,83 +19,102 @@
     android:layout_height="match_parent"
     android:layout_weight="1"
     android:padding="5dp">
-    
-  <MvvmCross.Droid.Support.V7.RecyclerView.MvxRecyclerView
-    android:id="@+id/rvOrderItems"
-    android:scrollbars="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_weight="1"
-    android:layout_marginBottom="5dp"
-    local:MvxItemTemplate="@layout/ordeitem_cellview"
-    local:MvxBind="ItemsSource CurrentOrder.Items; ItemClick SelectOrderItemCommand" />
-    
-  <!--<EditText
-    android:id="@+id/etAdvanceAmount"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:textSize="16dp"
-    android:textColor="@color/textColor"
-    android:hint="Advance amount"
-    local:MvxBind="Text CurrentOrder.AdvanceAmount"/>
 
-  <LinearLayout
-    android:id="@+id/llBalance"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="5dp"
-    android:gravity="center">
+    <MvvmCross.Droid.Support.V7.RecyclerView.MvxRecyclerView
+      android:id="@+id/rvOrderItems"
+      android:scrollbars="vertical"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_weight="1"
+      android:layout_marginBottom="5dp"
+      local:MvxItemTemplate="@layout/ordeitem_cellview"
+      local:MvxBind="ItemsSource CurrentOrder.Items; ItemClick SelectOrderItemCommand" />
 
-    <TextView
-      android:id="@+id/txtBalance"
+    <LinearLayout
+      android:id="@+id/llAdvanceAmount"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:text="Balance amount : "
-      android:layout_weight="1"
-      android:textSize="16dp"
-      android:textStyle="bold"
-      android:textColor="@color/textColor"/>
+      android:layout_marginBottom="5dp"
+      android:gravity="center">
 
-    <TextView
-      android:id="@+id/txtTotalValue"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:textSize="16dp"
-      android:textStyle="bold"
-      android:textColor="@color/textColor"
-      local:MvxBind="Text CurrentOrder.BalanceAmount"/>
+      <TextView
+        android:id="@+id/txtAdvanceAmount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Advance Amount:"
+        android:layout_weight="1"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:textColor="@color/textColor"/>
 
-  </LinearLayout>-->
-    
-  <LinearLayout
-    android:id="@+id/llTotal"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="5dp"
-    android:gravity="center">
-    
-    <TextView
-      android:id="@+id/txtTotal"
+      <TextView
+        android:id="@+id/txtBalance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:textColor="@color/textColor"
+        local:MvxBind="Text CurrentOrder.AdvanceAmount"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+      android:id="@+id/llBalance"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:text="Order Total : "
-      android:layout_weight="1"
-      android:textSize="16dp"
-      android:textStyle="bold"
-      android:textColor="@color/textColor"/>
+      android:layout_marginBottom="5dp"
+      android:gravity="center">
+
+      <TextView
+        android:id="@+id/txtBalance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Balance Amount:"
+        android:layout_weight="1"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:textColor="@color/textColor"/>
+
+      <TextView
+        android:id="@+id/txtBalance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:textColor="@color/textColor"
+        local:MvxBind="Text CurrentOrder.BalanceAmount"/>
+
+    </LinearLayout>
     
-    <TextView
-      android:id="@+id/txtTotalValue"
-      android:layout_width="wrap_content"
+    <LinearLayout
+      android:id="@+id/llTotal"
+      android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:textSize="16dp"
-      android:textStyle="bold"
-      android:textColor="@color/textColor"
-      local:MvxBind="Text CurrentOrder.TotalAmount"/>
-    
-  </LinearLayout>
-  
-  <!--<LinearLayout
+      android:layout_marginBottom="5dp"
+      android:gravity="center">
+
+      <TextView
+        android:id="@+id/txtTotal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Order Total : "
+        android:layout_weight="1"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:textColor="@color/textColor"/>
+
+      <TextView
+        android:id="@+id/txtTotalValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:textColor="@color/textColor"
+        local:MvxBind="Text CurrentOrder.TotalAmount"/>
+
+    </LinearLayout>
+
+    <!--<LinearLayout
     android:id="@+id/llCustomerDetails"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -143,21 +162,21 @@
     </LinearLayout>
 
   </LinearLayout>-->
-  
-  <Button
-    android:id="@+id/btnAddItem"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="5dp"
-    android:text="Add Item"
-    local:MvxBind="Click AddOrderItemCommand"/>
-  
-  <Button
-    android:id="@+id/btnCreateOrder"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    local:MvxBind="Click UpdateOrderCommand; Enabled IsOrderUpdated; Text ButtonText"/>
-    
+
+    <Button
+      android:id="@+id/btnAddItem"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="5dp"
+      android:text="Add Item"
+      local:MvxBind="Click AddOrderItemCommand"/>
+
+    <Button
+      android:id="@+id/btnCreateOrder"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      local:MvxBind="Click UpdateOrderCommand; Enabled IsOrderUpdated; Text ButtonText"/>
+
   </LinearLayout>
 
 </LinearLayout>

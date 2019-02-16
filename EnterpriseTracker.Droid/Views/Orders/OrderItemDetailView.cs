@@ -20,7 +20,7 @@ namespace EnterpriseTracker.Droid.Views.Orders
         LinearLayout _llContainer;
 
         LinearLayout _llCategory, _llProduct, _llDateTime, _llMessgae, _llUnits;
-        TextView _txtCategory, _txtProduct, _txtDateTime, _txtMessage, _txtUnits;
+        TextView _txtCategory, _txtProduct, _txtDateTime, _txtMessage, _txtUnits, _txtTotalValue;
         EditText _etDateTime, _etMessage, _etUnits;
         MvxSpinner _spnCategory, _spnProduct;
         Button _btnCreate;
@@ -62,6 +62,7 @@ namespace EnterpriseTracker.Droid.Views.Orders
             if (e.PropertyName == "CurrentOrderItem")
             {
                 _etDateTime.Text = ViewModel.CurrentOrderItem.Time.ToString("ddd d MMM - hh : mm tt", CultureInfo.InvariantCulture);
+                _txtTotalValue.Text = ViewModel.CurrentOrderItem.TotalAmount.ToString();
             }
         }
 
@@ -106,6 +107,7 @@ namespace EnterpriseTracker.Droid.Views.Orders
             _etUnits = FindViewById<EditText>(Resource.Id.etUnits);
             _spnCategory = FindViewById<MvxSpinner>(Resource.Id.spnCategory);
             _spnProduct = FindViewById<MvxSpinner>(Resource.Id.spnProduct);
+            _txtTotalValue = FindViewById<TextView>(Resource.Id.txtTotalValue);
         }
     }
 }

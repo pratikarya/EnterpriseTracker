@@ -11,6 +11,7 @@ using EnterpriseTracker.Core.Utility;
 using Realms;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace EnterpriseTracker.Core.RealmObjects
@@ -37,7 +38,7 @@ namespace EnterpriseTracker.Core.RealmObjects
             order.Items = new List<OrderItemDto>();
             order.CreatedDate = realmOrder.CreatedDate.LocalDateTime;
             order.ModifiedDate = realmOrder.ModifiedDate.LocalDateTime;
-            foreach (var realmOrderItem in realmOrder.Items)
+            foreach (var realmOrderItem in realmOrder.Items.OrderByDescending(x => x.Time))
             {
                 var orderItem = ConvertToDto(realmOrderItem);
                 order.Items.Add(orderItem);

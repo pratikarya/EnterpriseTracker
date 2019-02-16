@@ -83,6 +83,33 @@
       </LinearLayout>
 
       <LinearLayout
+        android:id="@+id/llStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginBottom="5dp">
+
+        <TextView
+          android:id="@+id/txtStatus"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_weight="2"
+          android:layout_marginRight="5dp"
+          android:textSize="16dp"
+          android:text="Item Status"
+          android:textColor="@color/highlightColor"/>
+
+        <mvvmcross.platforms.android.binding.views.MvxSpinner
+          android:id="@+id/spnStatus"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          local:MvxItemTemplate="@layout/spn_item_template"
+          local:MvxBind="ItemsSource StatusList; SelectedItem SelectedStatus"/>
+
+      </LinearLayout>
+
+      <LinearLayout
         android:id="@+id/llDateTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -168,10 +195,101 @@
           local:MvxBind="Text CurrentOrderItem.Message"/>
 
       </LinearLayout>
+
+      <LinearLayout
+        android:id="@+id/llAdvanceAmount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginBottom="5dp">
+
+        <TextView
+          android:id="@+id/txtAdvance"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_weight="2"
+          android:layout_marginRight="5dp"
+          android:textSize="16dp"
+          android:text="Advance amount"
+          android:textColor="@color/highlightColor"/>
+
+        <Edittext
+          android:id="@+id/etAdvance"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:textSize="14dp"
+          android:inputType="numberDecimal"
+          android:textColor="@color/textColor"
+          android:hint="Advance"
+          local:MvxBind="Text CurrentOrderItem.AdvanceAmount"/>
+
+      </LinearLayout>
+      
+      <LinearLayout
+        android:id="@+id/llDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginBottom="5dp">
+
+        <TextView
+          android:id="@+id/txtDetails"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_weight="2"
+          android:layout_marginRight="5dp"
+          android:textSize="16dp"
+          android:text="Enter details"
+          android:textColor="@color/highlightColor"/>
+
+        <Edittext
+          android:id="@+id/etDetails"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:textSize="14dp"
+          android:textColor="@color/textColor"
+          android:hint="Details"
+          android:scrollbars="vertical"
+          local:MvxBind="Text CurrentOrderItem.Details"/>
+
+      </LinearLayout>
       
     </LinearLayout>
 
   </ScrollView>
+
+  <LinearLayout
+    android:id="@+id/llTotal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="5dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:visibility="gone"
+    android:gravity="center">
+
+    <TextView
+      android:id="@+id/txtTotal"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="Item Total : "
+      android:layout_weight="1"
+      android:textSize="16dp"
+      android:textStyle="bold"
+      android:textColor="@color/textColor"/>
+
+    <TextView
+      android:id="@+id/txtTotalValue"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textSize="16dp"
+      android:textStyle="bold"
+      android:textColor="@color/textColor"
+      local:MvxBind="Text CurrentOrderItem.TotalAmount"/>
+
+  </LinearLayout>
 
   <Button
     android:id="@+id/btnCreate"

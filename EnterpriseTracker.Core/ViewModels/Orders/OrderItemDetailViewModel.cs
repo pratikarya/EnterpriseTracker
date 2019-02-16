@@ -129,6 +129,28 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
             }
         }
 
+        private List<OrderItemStatus> _statusList;
+        public List<OrderItemStatus> StatusList
+        {
+            get { return _statusList; }
+            set
+            {
+                _statusList = value;
+                RaisePropertyChanged(() => StatusList);
+            }
+        }
+        
+        private OrderItemStatus _selectedStatus;
+        public OrderItemStatus SelectedStatus
+        {
+            get { return _selectedStatus; }
+            set
+            {
+                _selectedStatus = value;
+                RaisePropertyChanged(() => SelectedStatus);
+            }
+        }
+
         private MvxCommand _createCommand;
         public ICommand CreateCommand
         {
@@ -147,6 +169,7 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
                 try
                 {
                     CurrentOrderItem.Product = SelectedProduct;
+                    CurrentOrderItem.Status = SelectedStatus;
 
                     //TODO : Proper order adding validations. For example id check, quantity check, product check, message check, etc.
                     if (ValidateOrderItem())
@@ -203,6 +226,7 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
                     if (res?.IsValid == true && res.Result != null)
                     {
                         Categories = res.Result;
+                        StatusList = Enum.GetValues(typeof(OrderItemStatus)).Cast<OrderItemStatus>().ToList();
                         InitDefaults();
                     }
                 }
@@ -221,15 +245,23 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
                 SelectedCategory = Categories.First();                
                 SelectedProduct = Products.First();
                 CurrentOrderItem.Units = 0.5f;
-                CurrentOrderItem.Time = DateTime.Now;
+
+                var date = DateTime.Now;
+                var span = new TimeSpan(1, 0, 0);
+                long ticks = (date.Ticks + span.Ticks - 1)/ span.Ticks;
+
+                CurrentOrderItem.Time = new DateTime(ticks * span.Ticks);
+                SelectedStatus = OrderItemStatus.Confirmed;
             }
             else
             {
                 SelectedCategory = Categories.First(x => x.Products.Any(y => y.Id == CurrentOrderItem.Product.Id));
                 SelectedProduct = Products.First(x => x.Id == CurrentOrderItem.Product.Id);
+                SelectedStatus = CurrentOrderItem.Status;
 
                 var selectedCatIndex = Categories.IndexOf(SelectedCategory);
                 var selectedProdIndex = Products.IndexOf(SelectedProduct);
+                var selectedStatusIndex = StatusList.IndexOf(SelectedStatus);
 
                 Categories.RemoveAt(selectedCatIndex);
                 Categories.Insert(0, SelectedCategory);
@@ -237,8 +269,12 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
                 Products.RemoveAt(selectedProdIndex);
                 Products.Insert(0, SelectedProduct);
 
+                StatusList.RemoveAt(selectedStatusIndex);
+                StatusList.Insert(0, SelectedStatus);
+
                 SelectedCategory = Categories.First();
                 SelectedProduct = Products.First();
+                SelectedStatus = StatusList.First();
             }
             RaisePropertyChanged(() => CurrentOrderItem);
         }
