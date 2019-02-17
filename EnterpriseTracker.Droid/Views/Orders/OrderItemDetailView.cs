@@ -3,7 +3,9 @@ using System.ComponentModel;
 using System.Globalization;
 using Android.App;
 using Android.OS;
+using Android.Views;
 using Android.Widget;
+using Com.Syncfusion.SfPicker;
 using EnterpriseTracker.Core.AppContents.Product.Contract.Dto;
 using EnterpriseTracker.Core.ViewModels.Orders;
 using EnterpriseTracker.Droid.Views.Common;
@@ -23,6 +25,7 @@ namespace EnterpriseTracker.Droid.Views.Orders
         TextView _txtCategory, _txtProduct, _txtDateTime, _txtMessage, _txtUnits, _txtTotalValue;
         EditText _etDateTime, _etMessage, _etUnits;
         MvxSpinner _spnCategory, _spnProduct;
+        SfPicker _sfpCategories;
         Button _btnCreate;
 
         DatePickerDialog _datePickerDialog;
@@ -40,7 +43,7 @@ namespace EnterpriseTracker.Droid.Views.Orders
 
             SetSupportActionBar(_toolbar);
 
-            _toolbarTitle.Text = "OrderItem Detail";
+            _toolbarTitle.Text = "Details";
 
             ViewModel.PropertyChanged += ViewModel_PropertyChanged;
 
@@ -59,11 +62,27 @@ namespace EnterpriseTracker.Droid.Views.Orders
 
         private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            if(e.PropertyName == "Categories")
+            {
+                if(ViewModel.Categories != null)
+                {
+                }
+            }
             if (e.PropertyName == "CurrentOrderItem")
             {
                 _etDateTime.Text = ViewModel.CurrentOrderItem.Time.ToString("ddd d MMM - hh : mm tt", CultureInfo.InvariantCulture);
                 _txtTotalValue.Text = ViewModel.CurrentOrderItem.TotalAmount.ToString();
             }
+        }
+
+        private void _sfpCategories_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void _sfpCategories_OnPickerItemLoaded(object sender, PickerViewEventsArgs e)
+        {
+
         }
 
         private void SetDateTimeDialog()
@@ -89,6 +108,11 @@ namespace EnterpriseTracker.Droid.Views.Orders
             }, DateTime.Now.Hour, DateTime.Now.Minute, Android.Text.Format.DateFormat.Is24HourFormat(this));
             _etDateTime.ShowSoftInputOnFocus = false;
             _etDateTime.FocusableInTouchMode = false;
+        }
+
+        public override void OnBackPressed()
+        {
+            ViewModel.BackCommand.Execute(null);
         }
 
         private void GetReferences()

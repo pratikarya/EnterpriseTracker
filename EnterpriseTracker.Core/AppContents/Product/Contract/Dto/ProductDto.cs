@@ -14,7 +14,7 @@ namespace EnterpriseTracker.Core.AppContents.Product.Contract.Dto
         public bool IsVeg { get; set; }
         public override string ToString()
         {
-            return Name;
+            return this.Name;
         }
     }
 

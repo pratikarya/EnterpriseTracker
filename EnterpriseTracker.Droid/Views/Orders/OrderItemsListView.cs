@@ -61,16 +61,13 @@ namespace EnterpriseTracker.Droid.Views.Orders
             if (IsFirstLoad)
             {
                 IsFirstLoad = false;
-                if (ViewModel.IsNewOrder && ViewModel.CurrentOrder.Items.Count == 0)
-                {
-                    ViewModel.AddOrderItemCommand.Execute(null);
-                }
+                ViewModel.LoadOrderItemsCommand.Execute(null);
             }
         }
 
         public override void OnBackPressed()
         {
-            ViewModel.BackCommand.Execute(null);
+            //ViewModel.BackCommand.Execute(null);
         }
 
         private void GetReferences()

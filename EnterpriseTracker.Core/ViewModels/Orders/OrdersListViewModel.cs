@@ -55,13 +55,13 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
 
         private async void DoSelectOrder(OrderDto order)
         {
-            var updatedOrder = await NavigationService.Navigate<OrderItemsListViewModel, OrderDto, OrderDto>(order);
-            if (updatedOrder != null)
-            {
-                //If selected order was updated, reload.
-                order = updatedOrder;
-                RaisePropertyChanged(() => Orders);
-            }
+            //var updatedOrder = await NavigationService.Navigate<OrderItemsListViewModel, OrderDto, OrderDto>(order);
+            //if (updatedOrder != null)
+            //{
+            //    //If selected order was updated, reload.
+            //    order = updatedOrder;
+            //    RaisePropertyChanged(() => Orders);
+            //}
         }
 
         private MvxCommand _createOrderCommand;
@@ -76,12 +76,12 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
 
         private async void DoCreateOrder()
         {
-            var newOrder = await NavigationService.Navigate<OrderItemsListViewModel, OrderDto, OrderDto>(null);
-            if (newOrder != null)
-            {
-                Orders.Add(newOrder);
-                RaisePropertyChanged(() => Orders);
-            }
+            //var newOrder = await NavigationService.Navigate<OrderItemsListViewModel, OrderDto, OrderDto>(null);
+            //if (newOrder != null)
+            //{
+            //    Orders.Add(newOrder);
+            //    RaisePropertyChanged(() => Orders);
+            //}
         }
 
         private MvxCommand _loadOrdersCommand;
@@ -101,11 +101,11 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
                 UIService.ShowDialog(true);
                 try
                 {
-                    var res = RealmService.GetOrders();
-                    if (res.IsValid && res.Result.Count > 0)
-                    {
-                        Orders = res.Result.OrderBy(x => x.Time.Value).ToList();
-                    }
+                    //var res = RealmService.GetOrders();
+                    //if (res.IsValid && res.Result.Count > 0)
+                    //{
+                    //    Orders = res.Result.OrderBy(x => x.Time.Value).ToList();
+                    //}
                 }
                 catch (Exception ex)
                 {

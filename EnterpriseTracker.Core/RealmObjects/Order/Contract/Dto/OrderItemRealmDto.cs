@@ -20,9 +20,13 @@ namespace EnterpriseTracker.Core.RealmObjects.Order.Contract.Dto
         public string Details { get; set; }
         public string Images { get; set; }
         public float PrintCharge { get; set; }
-        public float AdditionalCharge { get; set; }
+        public float AdvanceAmount { get; set; }
+        public float ExtraCharge { get; set; }
         public float DeliveryCharge { get; set; }
         public float DesignCharge { get; set; }
+        public bool CarryBag { get; set; }
+        public bool Extra { get; set; }
+        public double ContactNumber { get; set; }
         public DateTimeOffset CreatedDate { get; set; }
         public DateTimeOffset ModifiedDate { get; set; }
         public int Status { get; set; }
@@ -30,7 +34,11 @@ namespace EnterpriseTracker.Core.RealmObjects.Order.Contract.Dto
         {
             get
             {
-                var totalAmount = PrintCharge + AdditionalCharge + DeliveryCharge + DesignCharge + (Product.Price * Units);
+                var totalAmount = PrintCharge + ExtraCharge + DeliveryCharge + DesignCharge + (Product.Price * Units);
+                if (Units == 0.5 & Product.Price == 600)
+                    totalAmount += 10;
+                if (CarryBag)
+                    totalAmount += 10;
                 return totalAmount;
             }
         }

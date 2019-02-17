@@ -27,6 +27,12 @@
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:padding="5dp">
+      
+      <!--<com.syncfusion.sfpicker.SfPicker
+          android:id="@+id/sfPickerCategories"
+          android:layout_width="match_parent"
+          android:layout_height="100dp" 
+          local:MvxBind="ItemsSource Categories; SelectedItem SelectedCategory"/>-->
 
       <LinearLayout
         android:id="@+id/llCategory"
@@ -96,7 +102,7 @@
           android:layout_weight="2"
           android:layout_marginRight="5dp"
           android:textSize="16dp"
-          android:text="Item Status"
+          android:text="Status"
           android:textColor="@color/highlightColor"/>
 
         <mvvmcross.platforms.android.binding.views.MvxSpinner
@@ -197,6 +203,66 @@
       </LinearLayout>
 
       <LinearLayout
+        android:id="@+id/llContactInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginBottom="5dp">
+
+        <TextView
+          android:id="@+id/txtContactNumber"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_weight="2"
+          android:layout_marginRight="5dp"
+          android:textSize="16dp"
+          android:text="Contact Number"
+          android:textColor="@color/highlightColor"/>
+
+        <Edittext
+          android:id="@+id/etContactNumber"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:textSize="14dp"
+          android:inputType="numberDecimal"
+          android:textColor="@color/textColor"
+          android:hint="Contact Number"
+          local:MvxBind="Text CurrentOrderItem.ContactNumber"/>
+
+      </LinearLayout>
+      
+      <LinearLayout
+        android:id="@+id/llDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginBottom="5dp">
+
+        <TextView
+          android:id="@+id/txtDetails"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_weight="2"
+          android:layout_marginRight="5dp"
+          android:textSize="16dp"
+          android:text="Details"
+          android:textColor="@color/highlightColor"/>
+
+        <Edittext
+          android:id="@+id/etDetails"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:textSize="14dp"
+          android:textColor="@color/textColor"
+          android:hint="Details"
+          android:scrollbars="vertical"
+          local:MvxBind="Text CurrentOrderItem.Details"/>
+
+      </LinearLayout>
+      
+      <LinearLayout
         android:id="@+id/llAdvanceAmount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -227,33 +293,91 @@
       </LinearLayout>
       
       <LinearLayout
-        android:id="@+id/llDetails"
+        android:id="@+id/llDesignCharge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_marginBottom="5dp">
 
         <TextView
-          android:id="@+id/txtDetails"
+          android:id="@+id/txtDesignCharge"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:layout_weight="2"
           android:layout_marginRight="5dp"
           android:textSize="16dp"
-          android:text="Enter details"
+          android:text="Design charge"
           android:textColor="@color/highlightColor"/>
 
         <Edittext
-          android:id="@+id/etDetails"
+          android:id="@+id/etDesinCharge"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:layout_weight="1"
           android:textSize="14dp"
+          android:inputType="numberDecimal"
           android:textColor="@color/textColor"
-          android:hint="Details"
-          android:scrollbars="vertical"
-          local:MvxBind="Text CurrentOrderItem.Details"/>
+          android:hint="Design charge"
+          local:MvxBind="Text CurrentOrderItem.DesignCharge"/>
 
+      </LinearLayout>
+
+      <LinearLayout
+        android:id="@+id/llExtraCharge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:visibility="gone"
+        android:layout_marginBottom="5dp">
+
+        <TextView
+          android:id="@+id/txtExtraCharge"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_weight="2"
+          android:layout_marginRight="5dp"
+          android:textSize="16dp"
+          android:text="Extra charge"
+          android:textColor="@color/highlightColor"/>
+
+        <Edittext
+          android:id="@+id/etExtraCharge"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:textSize="14dp"
+          android:inputType="numberDecimal"
+          android:textColor="@color/textColor"
+          android:hint="Extra charge"
+          local:MvxBind="Text CurrentOrderItem.ExtraCharge"/>
+
+      </LinearLayout>
+
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginBottom="5dp">
+
+        <Switch
+          android:id="@+id/swCarryBag"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Carry Bag"
+          local:MvxBind="Checked CurrentOrderItem.CarryBag" />
+
+        <View
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"/>
+
+        <Switch
+          android:id="@+id/swCarryBag"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Extra"
+          local:MvxBind="Checked CurrentOrderItem.Extra" />
+        
       </LinearLayout>
       
     </LinearLayout>

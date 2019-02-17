@@ -11,8 +11,53 @@
   <include
     android:id="@+id/toolbar"
     layout="@layout/toolbar" />
+  
+  <android.support.design.widget.CoordinatorLayout
+	  android:layout_width="match_parent"
+	  android:layout_height="match_parent">
 
-  <LinearLayout
+    <LinearLayout
+      android:id="@+id/llMain"
+      android:orientation="vertical"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+
+      <MvvmCross.Droid.Support.V4.MvxSwipeRefreshLayout
+        android:id="@+id/refresher"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        local:MvxBind="Refreshing IsRefreshing; RefreshCommand ReloadCommand">
+
+        <MvvmCross.Droid.Support.V7.RecyclerView.MvxRecyclerView
+          android:id="@+id/rvOrderItems"
+          android:scrollbars="vertical"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_weight="1"
+          android:layout_marginTop="5dp"
+          android:layout_marginBottom="5dp"
+          local:MvxItemTemplate="@layout/ordeitem_cellview"
+          local:MvxBind="ItemsSource OrderItems; ItemClick SelectOrderItemCommand" />
+
+      </MvvmCross.Droid.Support.V4.MvxSwipeRefreshLayout>
+
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+      android:id="@+id/fabCreateOrderItem"
+      app:layout_behavior="@string/fab_scroll_translation_autohide_behavior"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_margin="@dimen/fab_create_order_margin"
+      android:layout_gravity="bottom|right"
+      android:src="@drawable/plus"
+      local:elevation="4dp"
+      local:MvxBind="Click AddOrderItemCommand"
+      local:rippleColor="@color/colorPrimaryDark" />
+
+  </android.support.design.widget.CoordinatorLayout>
+
+  <!--<LinearLayout
     android:id="@id/llContainer"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -28,7 +73,7 @@
       android:layout_weight="1"
       android:layout_marginBottom="5dp"
       local:MvxItemTemplate="@layout/ordeitem_cellview"
-      local:MvxBind="ItemsSource CurrentOrder.Items; ItemClick SelectOrderItemCommand" />
+      local:MvxBind="ItemsSource OrderItems; ItemClick SelectOrderItemCommand" />
 
     <LinearLayout
       android:id="@+id/llAdvanceAmount"
@@ -114,7 +159,7 @@
 
     </LinearLayout>
 
-    <!--<LinearLayout
+    --><!--<LinearLayout
     android:id="@+id/llCustomerDetails"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -161,7 +206,7 @@
 
     </LinearLayout>
 
-  </LinearLayout>-->
+  </LinearLayout>--><!--
 
     <Button
       android:id="@+id/btnAddItem"
@@ -177,6 +222,6 @@
       android:layout_height="wrap_content"
       local:MvxBind="Click UpdateOrderCommand; Enabled IsOrderUpdated; Text ButtonText"/>
 
-  </LinearLayout>
+  </LinearLayout>-->
 
 </LinearLayout>

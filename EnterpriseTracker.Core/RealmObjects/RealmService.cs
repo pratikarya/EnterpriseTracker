@@ -1,4 +1,5 @@
 ﻿using EnterpriseTracker.Core.AppContents.Category.Contract.Dto;
+using EnterpriseTracker.Core.AppContents.Order.Contract.Dto;
 using EnterpriseTracker.Core.Common.Contract.Dto;
 using EnterpriseTracker.Core.Order.Contract.Dto;
 using EnterpriseTracker.Core.RealmObjects.Category.Contract.Dto;
@@ -16,114 +17,205 @@ namespace EnterpriseTracker.Core.RealmObjects.Order
 {
     public class RealmService : BaseService, IRealmService
     {
-        public ResultDto<OrderDto> UpdateOrder(SearchDto<OrderDto> search)
+        //public ResultDto<OrderDto> UpdateOrder(SearchDto<OrderDto> search)
+        //{
+        //    var order = search.RequestDto;
+        //    var result = new ResultDto<OrderDto>();
+        //    var realm = Realm.GetInstance(Config);
+        //    realm.Write(() =>
+        //    {
+        //        try
+        //        {
+        //            var realmOrder = new OrderRealmDto();
+        //            var allOrders = realm.All<OrderRealmDto>().ToList();
+        //            var isNewOrder = order.Id == Guid.Empty;
+
+        //            if (isNewOrder)
+        //            {
+        //                Guid newOrderId;
+        //                do
+        //                {
+        //                    newOrderId = Guid.NewGuid();
+        //                }
+        //                while (newOrderId == Guid.Empty || allOrders.Any(x => x.Id == newOrderId.ToString()));
+        //                order.Id = newOrderId;
+        //                realmOrder.Id = newOrderId.ToString();
+        //                realmOrder.CreatedDate = order.CreatedDate;
+        //            }
+        //            else
+        //            {
+        //                realmOrder = realm.Find<OrderRealmDto>(order.Id.ToString());
+        //            }
+
+        //            realmOrder.ContactNumber = order.ContactNumber;
+        //            realmOrder.Status = (int)order.Status;
+        //            realmOrder.ModifiedDate = order.ModifiedDate;
+        //            foreach (var orderItem in order.Items)
+        //            {
+        //                bool isNewOrderItem = orderItem.Id == Guid.Empty;
+        //                var realmOrderItem = new OrderItemRealmDto();
+        //                var allOrderItems = realm.All<OrderItemRealmDto>().ToList();
+
+        //                if (isNewOrderItem)
+        //                {
+        //                    Guid newOrderItemId;
+        //                    do
+        //                    {
+        //                        newOrderItemId = Guid.NewGuid();
+        //                    }
+        //                    while (newOrderItemId == Guid.Empty || allOrderItems.Any(x => x.Id == newOrderItemId.ToString()));
+
+        //                    orderItem.Id = newOrderItemId;
+        //                    realmOrderItem.Id = newOrderItemId.ToString();
+        //                    realmOrderItem.CreatedDate = orderItem.CreatedDate;
+        //                }
+        //                else
+        //                {
+        //                    realmOrderItem = realm.Find<OrderItemRealmDto>(orderItem.Id.ToString());
+        //                }
+
+        //                realmOrderItem.ModifiedDate = orderItem.ModifiedDate;
+        //                realmOrderItem.ExtraCharge = orderItem.ExtraCharge;
+        //                realmOrderItem.DeliveryCharge = orderItem.DeliveryCharge;
+        //                realmOrderItem.DesignCharge = orderItem.DesignCharge;
+        //                realmOrderItem.Details = orderItem.Details;
+        //                realmOrderItem.Images = orderItem.Images;
+        //                realmOrderItem.Message = orderItem.Message;
+        //                realmOrderItem.PrintCharge = orderItem.PrintCharge;
+        //                realmOrderItem.CarryBag = orderItem.CarryBag;
+        //                realmOrderItem.Status = (int)orderItem.Status;
+        //                realmOrderItem.Time = orderItem.Time;
+        //                realmOrderItem.Units = orderItem.Units;
+
+        //                var realmProduct = realm.Find<ProductRealmDto>(orderItem.Product.Id.ToString());
+        //                    //var realmOwner = realm.Find<UserRealmDto>(orderItem.Owner.Id.ToString());
+        //                    //var realmCustomer = realm.Find<UserRealmDto>(orderItem.Customer.Id.ToString());
+
+        //                    //if (realmCustomer == null)
+        //                    //{
+        //                    //    realmCustomer = new UserRealmDto();
+        //                    //    var allUsers = realm.All<UserRealmDto>().ToList();
+        //                    //    Guid newUserId;
+        //                    //    do
+        //                    //    {
+        //                    //        newUserId = Guid.NewGuid();
+        //                    //    }
+        //                    //    while (newUserId == Guid.Empty || allUsers.Any(x => x.Id == newUserId.ToString()));
+        //                    //    realmCustomer.Id = newUserId.ToString();
+        //                    //    realmCustomer.FirstName = orderItem.Customer.FirstName;
+        //                    //    realmCustomer.LastName = orderItem.Customer.LastName;
+        //                    //    realmCustomer.Email = orderItem.Customer.Email;
+        //                    //    realmCustomer.Mobile = orderItem.Customer.Mobile;
+        //                    //    realmCustomer.Address = orderItem.Customer.Address;
+        //                    //    realm.Add(realmCustomer);
+        //                    //    orderItem.Customer.Id = newUserId;
+        //                    //}
+
+        //                    //realmOrderItem.Owner = realmOwner;
+        //                    //realmOrderItem.Customer = realmCustomer;
+        //                    realmOrderItem.Product = realmProduct;
+        //                if (isNewOrderItem)
+        //                {
+        //                    realm.Add(realmOrderItem);
+        //                    realmOrder.Items.Add(realmOrderItem);
+        //                }
+        //            }
+
+        //            if (isNewOrder)
+        //                realm.Add(realmOrder);
+
+        //            result.Result = order;
+        //            result.Status = ResultStatus.Ok;
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            result.Result = null;
+        //            result.Status = ResultStatus.ServerError;
+        //        }
+        //    });
+        //    return result;
+        //}
+
+
+        public ResultDto<OrderItemDto> UpdateOrderItem(SearchDto<OrderItemDto> search)
         {
-            var order = search.RequestDto;
-            var result = new ResultDto<OrderDto>();
+            var orderItem = search.RequestDto;
+            var result = new ResultDto<OrderItemDto>();
             var realm = Realm.GetInstance(Config);
             realm.Write(() =>
             {
                 try
                 {
-                    var realmOrder = new OrderRealmDto();
-                    var allOrders = realm.All<OrderRealmDto>().ToList();
-                    var isNewOrder = order.Id == Guid.Empty;
+                    bool isNewOrderItem = orderItem.Id == Guid.Empty;
+                    var realmOrderItem = new OrderItemRealmDto();
+                    var allOrderItems = realm.All<OrderItemRealmDto>().ToList();
 
-                    if (isNewOrder)
+                    if (isNewOrderItem)
                     {
-                        Guid newOrderId;
+                        Guid newOrderItemId;
                         do
                         {
-                            newOrderId = Guid.NewGuid();
+                            newOrderItemId = Guid.NewGuid();
                         }
-                        while (newOrderId == Guid.Empty || allOrders.Any(x => x.Id == newOrderId.ToString()));
-                        order.Id = newOrderId;
-                        realmOrder.Id = newOrderId.ToString();
-                        realmOrder.CreatedDate = order.CreatedDate;
+                        while (newOrderItemId == Guid.Empty || allOrderItems.Any(x => x.Id == newOrderItemId.ToString()));
+
+                        orderItem.Id = newOrderItemId;
+                        realmOrderItem.Id = newOrderItemId.ToString();
+                        realmOrderItem.CreatedDate = orderItem.CreatedDate;
                     }
                     else
                     {
-                        realmOrder = realm.Find<OrderRealmDto>(order.Id.ToString());
+                        realmOrderItem = realm.Find<OrderItemRealmDto>(orderItem.Id.ToString());
                     }
 
-                    realmOrder.ContactNumber = order.ContactNumber;
-                    realmOrder.AdvanceAmount = order.AdvanceAmount;
-                    realmOrder.Status = (int)order.Status;
-                    realmOrder.ModifiedDate = order.ModifiedDate;
-                    foreach (var orderItem in order.Items)
+                    realmOrderItem.ModifiedDate = orderItem.ModifiedDate;
+                    realmOrderItem.ExtraCharge = orderItem.ExtraCharge;
+                    realmOrderItem.DeliveryCharge = orderItem.DeliveryCharge;
+                    realmOrderItem.DesignCharge = orderItem.DesignCharge;
+                    realmOrderItem.Details = orderItem.Details;
+                    realmOrderItem.Images = orderItem.Images;
+                    realmOrderItem.Message = orderItem.Message;
+                    realmOrderItem.PrintCharge = orderItem.PrintCharge;
+                    realmOrderItem.CarryBag = orderItem.CarryBag;
+                    realmOrderItem.Extra = orderItem.Extra;
+                    realmOrderItem.ContactNumber = orderItem.ContactNumber;
+                    realmOrderItem.Status = (int)orderItem.Status;
+                    realmOrderItem.Time = orderItem.Time;
+                    realmOrderItem.Units = orderItem.Units;
+
+                    var realmProduct = realm.Find<ProductRealmDto>(orderItem.Product.Id.ToString());
+                    //var realmOwner = realm.Find<UserRealmDto>(orderItem.Owner.Id.ToString());
+                    //var realmCustomer = realm.Find<UserRealmDto>(orderItem.Customer.Id.ToString());
+
+                    //if (realmCustomer == null)
+                    //{
+                    //    realmCustomer = new UserRealmDto();
+                    //    var allUsers = realm.All<UserRealmDto>().ToList();
+                    //    Guid newUserId;
+                    //    do
+                    //    {
+                    //        newUserId = Guid.NewGuid();
+                    //    }
+                    //    while (newUserId == Guid.Empty || allUsers.Any(x => x.Id == newUserId.ToString()));
+                    //    realmCustomer.Id = newUserId.ToString();
+                    //    realmCustomer.FirstName = orderItem.Customer.FirstName;
+                    //    realmCustomer.LastName = orderItem.Customer.LastName;
+                    //    realmCustomer.Email = orderItem.Customer.Email;
+                    //    realmCustomer.Mobile = orderItem.Customer.Mobile;
+                    //    realmCustomer.Address = orderItem.Customer.Address;
+                    //    realm.Add(realmCustomer);
+                    //    orderItem.Customer.Id = newUserId;
+                    //}
+
+                    //realmOrderItem.Owner = realmOwner;
+                    //realmOrderItem.Customer = realmCustomer;
+                    realmOrderItem.Product = realmProduct;
+                    if (isNewOrderItem)
                     {
-                        bool isNewOrderItem = orderItem.Id == Guid.Empty;
-                        var realmOrderItem = new OrderItemRealmDto();
-                        var allOrderItems = realm.All<OrderItemRealmDto>().ToList();
-
-                        if (isNewOrderItem)
-                        {
-                            Guid newOrderItemId;
-                            do
-                            {
-                                newOrderItemId = Guid.NewGuid();
-                            }
-                            while (newOrderItemId == Guid.Empty || allOrderItems.Any(x => x.Id == newOrderItemId.ToString()));
-
-                            orderItem.Id = newOrderItemId;
-                            realmOrderItem.Id = newOrderItemId.ToString();
-                            realmOrderItem.CreatedDate = orderItem.CreatedDate;
-                        }
-                        else
-                        {
-                            realmOrderItem = realm.Find<OrderItemRealmDto>(orderItem.Id.ToString());
-                        }
-
-                        realmOrderItem.ModifiedDate = orderItem.ModifiedDate;
-                        realmOrderItem.AdditionalCharge = orderItem.AdditionalCharge;
-                        realmOrderItem.DeliveryCharge = orderItem.DeliveryCharge;
-                        realmOrderItem.DesignCharge = orderItem.DesignCharge;
-                        realmOrderItem.Details = orderItem.Details;
-                        realmOrderItem.Images = orderItem.Images;
-                        realmOrderItem.Message = orderItem.Message;
-                        realmOrderItem.PrintCharge = orderItem.PrintCharge;
-                        realmOrderItem.Status = (int)orderItem.Status;
-                        realmOrderItem.Time = orderItem.Time;
-                        realmOrderItem.Units = orderItem.Units;
-
-                        var realmProduct = realm.Find<ProductRealmDto>(orderItem.Product.Id.ToString());
-                            //var realmOwner = realm.Find<UserRealmDto>(orderItem.Owner.Id.ToString());
-                            //var realmCustomer = realm.Find<UserRealmDto>(orderItem.Customer.Id.ToString());
-
-                            //if (realmCustomer == null)
-                            //{
-                            //    realmCustomer = new UserRealmDto();
-                            //    var allUsers = realm.All<UserRealmDto>().ToList();
-                            //    Guid newUserId;
-                            //    do
-                            //    {
-                            //        newUserId = Guid.NewGuid();
-                            //    }
-                            //    while (newUserId == Guid.Empty || allUsers.Any(x => x.Id == newUserId.ToString()));
-                            //    realmCustomer.Id = newUserId.ToString();
-                            //    realmCustomer.FirstName = orderItem.Customer.FirstName;
-                            //    realmCustomer.LastName = orderItem.Customer.LastName;
-                            //    realmCustomer.Email = orderItem.Customer.Email;
-                            //    realmCustomer.Mobile = orderItem.Customer.Mobile;
-                            //    realmCustomer.Address = orderItem.Customer.Address;
-                            //    realm.Add(realmCustomer);
-                            //    orderItem.Customer.Id = newUserId;
-                            //}
-
-                            //realmOrderItem.Owner = realmOwner;
-                            //realmOrderItem.Customer = realmCustomer;
-                            realmOrderItem.Product = realmProduct;
-                        if (isNewOrderItem)
-                        {
-                            realm.Add(realmOrderItem);
-                            realmOrder.Items.Add(realmOrderItem);
-                        }
+                        realm.Add(realmOrderItem);
                     }
 
-                    if (isNewOrder)
-                        realm.Add(realmOrder);
-
-                    result.Result = order;
+                    result.Result = ConvertToDto(realmOrderItem);
                     result.Status = ResultStatus.Ok;
                 }
                 catch (Exception ex)
@@ -251,20 +343,46 @@ namespace EnterpriseTracker.Core.RealmObjects.Order
             return result;
         }
 
-        public ResultDto<List<OrderDto>> GetOrders()
+        //public ResultDto<List<OrderDto>> GetOrders()
+        //{
+        //    var result = new ResultDto<List<OrderDto>>();
+        //    try
+        //    {
+        //        var realm = Realm.GetInstance(Config);
+        //        var realmOrders = realm.All<OrderRealmDto>().ToList();
+        //        var sortedRealmOrders = realmOrders.OrderByDescending(x => x.Items.Max(y => y.Time)).ToList();
+        //        List<OrderDto> orders = new List<OrderDto>();
+        //        foreach (var realmOrder in sortedRealmOrders)
+        //        {
+        //            var order = ConvertToDto(realmOrder);
+        //            orders.Add(order);
+        //        }
+        //        result.Result = orders;
+        //        result.Status = ResultStatus.Ok;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        result.Result = null;
+        //        result.Status = ResultStatus.ServerError;
+        //    }
+        //    return result;
+        //}
+
+        public ResultDto<List<OrderItemDto>> GetOrderItems()
         {
-            var result = new ResultDto<List<OrderDto>>();
+            var result = new ResultDto<List<OrderItemDto>>();
             try
             {
                 var realm = Realm.GetInstance(Config);
-                var realmOrders = realm.All<OrderRealmDto>().OrderByDescending(x => x.Items.Max(y => y.Time)).ToList();
-                List<OrderDto> orders = new List<OrderDto>();
-                foreach (var realmOrder in realmOrders)
+                var realmOrderItems = realm.All<OrderItemRealmDto>().ToList();
+                var sortedRealmOrderItems = realmOrderItems.OrderByDescending(x => x.Time).ToList();
+                List<OrderItemDto> orderItems = new List<OrderItemDto>();
+                foreach (var realmOrderItem in sortedRealmOrderItems)
                 {
-                    var order = ConvertToDto(realmOrder);
-                    orders.Add(order);
+                    var orderItem = ConvertToDto(realmOrderItem);
+                    orderItems.Add(orderItem);
                 }
-                result.Result = orders;
+                result.Result = orderItems;
                 result.Status = ResultStatus.Ok;
             }
             catch (Exception ex)

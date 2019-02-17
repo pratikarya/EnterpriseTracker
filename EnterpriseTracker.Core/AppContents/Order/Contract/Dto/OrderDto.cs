@@ -15,7 +15,13 @@ namespace EnterpriseTracker.Core.Order.Contract.Dto
         }
         public Guid Id { get; set; }
         public List<OrderItemDto> Items { get; set; }
-        public float AdvanceAmount { get; set; }
+        public float AdvanceAmount
+        {
+            get
+            {
+                return Items != null ? Items.Sum(x => x.AdvanceAmount) : 0.0f;
+            }
+        }
         public OrderStatus Status { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime ModifiedDate { get; set; }

@@ -3,6 +3,7 @@ using EnterpriseTracker.Core.User.Contract;
 using EnterpriseTracker.Core.User.Contract.Dto;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace EnterpriseTracker.Core.AppContents.Order.Contract.Dto
@@ -19,9 +20,13 @@ namespace EnterpriseTracker.Core.AppContents.Order.Contract.Dto
         public string Details { get; set; }
         public string Images { get; set; }
         public float PrintCharge { get; set; }
-        public float AdditionalCharge { get; set; }
+        public float AdvanceAmount { get; set; }
+        public float ExtraCharge { get; set; }
         public float DeliveryCharge { get; set; }
         public float DesignCharge { get; set; }
+        public bool CarryBag { get; set; }
+        public bool Extra { get; set; }
+        public double ContactNumber { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime ModifiedDate { get; set; }
         public OrderItemStatus Status { get; set; }
@@ -30,7 +35,11 @@ namespace EnterpriseTracker.Core.AppContents.Order.Contract.Dto
         {
             get
             {
-                var totalAmount = PrintCharge + AdditionalCharge + DeliveryCharge + DesignCharge + (Product.Price * Units);
+                var totalAmount = PrintCharge + ExtraCharge + DeliveryCharge + DesignCharge + (Product.Price * Units);
+                if (Units == 0.5 & Product.Price == 600)
+                    totalAmount += 10;
+                if (CarryBag)
+                    totalAmount += 10;
                 return totalAmount;
             }
         }
@@ -50,8 +59,6 @@ namespace EnterpriseTracker.Core.AppContents.Order.Contract.Dto
         Ready,
         Delivered,
         Successfull,
-        Successfull_Payment_Pending,
         Cancelled
-    }
-    
+    }    
 }

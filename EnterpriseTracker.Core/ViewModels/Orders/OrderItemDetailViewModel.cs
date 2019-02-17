@@ -83,7 +83,7 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
             }
         }
 
-        private List<CategoryDto> _categories;
+        private List<CategoryDto> _categories = new List<CategoryDto>();
         public List<CategoryDto> Categories
         {
             get { return _categories; }
@@ -150,7 +150,7 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
                 RaisePropertyChanged(() => SelectedStatus);
             }
         }
-
+        
         private MvxCommand _createCommand;
         public ICommand CreateCommand
         {
@@ -177,7 +177,15 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
                         if (IsNewOrderItem)
                             CurrentOrderItem.CreatedDate = DateTime.Now;
                         CurrentOrderItem.ModifiedDate = DateTime.Now;
-                        NavigationService.Close(this, CurrentOrderItem);
+                        var res = RealmService.UpdateOrderItem(new Core.Common.Contract.Dto.SearchDto<OrderItemDto>
+                        {
+                            RequestDto = CurrentOrderItem
+                        });
+                        if(res?.IsValid == true)
+                        {
+                            CurrentOrderItem = res.Result;
+                            NavigationService.Close(this, CurrentOrderItem);
+                        }
                     }
                 }
                 catch (Exception ex)

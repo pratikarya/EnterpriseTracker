@@ -6,12 +6,13 @@ using EnterpriseTracker.Core.UI;
 using EnterpriseTracker.Core.ViewModels.Common;
 using MvvmCross.Commands;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace EnterpriseTracker.Core.ViewModels.Orders
 {
-    public class OrderItemsListViewModel : BaseViewModel<OrderDto, OrderDto>
+    public class OrderItemsListViewModel : BaseViewModel
     {
         public IRealmService RealmService { get; set; }
         public IUIService UIService { get; set; }
@@ -21,55 +22,26 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
             RealmService = realmService;
             UIService = uiService;
         }
+
+        //private OrderDto _currentOrder = new OrderDto();
+        //public OrderDto CurrentOrder
+        //{
+        //    get { return _currentOrder; }
+        //    set
+        //    {
+        //        _currentOrder = value;
+        //        RaisePropertyChanged(() => CurrentOrder);
+        //    }
+        //}
                
-        public override void PrepareImpl(OrderDto param)
+        private List<OrderItemDto> _orderItems = new List<OrderItemDto>();
+        public List<OrderItemDto> OrderItems
         {
-            IsNewOrder = param == null;
-            if (!IsNewOrder)
-            {
-                CurrentOrder = param as OrderDto;
-            }
-        }
-
-        public override Task Initialize()
-        {
-            ButtonText = IsNewOrder ? "Create" : "Update";
-            return base.Initialize();
-        }
-
-        string errorMessage = "";
-        public bool IsNewOrder { get; set; }
-
-        private bool _isOrderUpdated;
-        public bool IsOrderUpdated
-        {
-            get { return _isOrderUpdated; }
+            get { return _orderItems; }
             set
             {
-                _isOrderUpdated = value;
-                RaisePropertyChanged(() => IsOrderUpdated);
-            }
-        }
-
-        private string _buttonText;
-        public string ButtonText
-        {
-            get { return _buttonText; }
-            set
-            {
-                _buttonText = value;
-                RaisePropertyChanged(() => ButtonText);
-            }
-        }
-
-        private OrderDto _currentOrder = new OrderDto();
-        public OrderDto CurrentOrder
-        {
-            get { return _currentOrder; }
-            set
-            {
-                _currentOrder = value;
-                RaisePropertyChanged(() => CurrentOrder);
+                _orderItems = value;
+                RaisePropertyChanged(() => OrderItems);
             }
         }
 
@@ -88,9 +60,7 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
             var updatedOrderItem = await NavigationService.Navigate<OrderItemDetailViewModel, OrderItemDto, OrderItemDto>(orderItem);
             if(updatedOrderItem != null)
             {
-                orderItem = updatedOrderItem;
-                RaisePropertyChanged(() => CurrentOrder);
-                IsOrderUpdated = true;
+                LoadOrderItemsCommand.Execute(null);
             }
         }
 
@@ -109,46 +79,31 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
             var newOrderItem = await NavigationService.Navigate<OrderItemDetailViewModel, OrderItemDto, OrderItemDto>(null);
             if(newOrderItem != null)
             {
-                CurrentOrder.Items.Add(newOrderItem);
-                RaisePropertyChanged(() => CurrentOrder);
-                IsOrderUpdated = true;
-            }
-        }
-        
-        private MvxCommand _updateOrderCommand;
-        public ICommand UpdateOrderCommand
-        {
-            get
-            {
-                _updateOrderCommand = _updateOrderCommand ?? new MvxCommand(DoUpdateOrder);
-                return _updateOrderCommand;
+                LoadOrderItemsCommand.Execute(null);
             }
         }
 
-        private void DoUpdateOrder()
+        private MvxCommand _loadOrderItemsCommand;
+        public ICommand LoadOrderItemsCommand
+        {
+            get
+            {
+                _loadOrderItemsCommand = _loadOrderItemsCommand ?? new MvxCommand(DoLoadOrderItems);
+                return _loadOrderItemsCommand;
+            }
+        }
+
+        private void DoLoadOrderItems()
         {
             Task.Run(() =>
             {
                 UIService.ShowDialog(true);
                 try
                 {
-                    //TODO : Proper order adding validations. For example id check, quantity check, product check, message check, etc.
-                    if (ValidateOrder())
+                    var res = RealmService.GetOrderItems();
+                    if (res.IsValid && res.Result.Count > 0)
                     {
-                        if (IsNewOrder)
-                            CurrentOrder.CreatedDate = DateTime.Now;
-                        CurrentOrder.ModifiedDate = DateTime.Now;
-
-                        var res = RealmService.UpdateOrder(new SearchDto<OrderDto> { RequestDto = CurrentOrder });
-                        if (res.IsValid)
-                        {
-                            CurrentOrder = res.Result;
-                            NavigationService.Close(this, CurrentOrder);
-                        }
-                    }
-                    else
-                    {
-                        UIService.ShowErrorDialog(errorMessage);
+                        OrderItems = res.Result;
                     }
                 }
                 catch (Exception ex)
@@ -159,36 +114,28 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
             });
         }
 
-        private bool ValidateOrder()
+        private bool _isRefreshing;
+        public bool IsRefreshing
         {
-            bool isValid = false;
-
-            if (CurrentOrder.Items.Count == 0)
+            get { return _isRefreshing; }
+            set
             {
-                errorMessage += "*Product must be selected.\n";
+                _isRefreshing = value;
+                RaisePropertyChanged(() => IsRefreshing);
             }
-
-            isValid = string.IsNullOrEmpty(errorMessage);
-
-            return isValid;
         }
 
-        private MvxCommand _backCommand;
-        public ICommand BackCommand
+        public ICommand ReloadCommand
         {
             get
             {
-                _backCommand = _backCommand ?? new MvxCommand(GoBack);
-                return _backCommand;
+                return new MvxCommand(() =>
+                {
+                    IsRefreshing = true;
+                    Task.Run(() => DoLoadOrderItems());
+                    IsRefreshing = false;
+                });
             }
-        }
-
-        private void GoBack()
-        {
-            if (IsOrderUpdated)
-                UIService.ShowConfirmationDialog(() => { UpdateOrderCommand.Execute(null); }, () => { NavigationService.Close(this, null); }, "Save changes ?");
-            else
-                NavigationService.Close(this, null);
         }
     }
 }

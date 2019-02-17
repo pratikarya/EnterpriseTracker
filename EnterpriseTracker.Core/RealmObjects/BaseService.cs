@@ -28,30 +28,29 @@ namespace EnterpriseTracker.Core.RealmObjects
             };
         }
 
-        public OrderDto ConvertToDto(OrderRealmDto realmOrder)
-        {
-            var order = new OrderDto();
-            order.Id = Guid.Parse(realmOrder.Id);
-            order.Status = (OrderStatus)realmOrder.Status;
-            order.AdvanceAmount = realmOrder.AdvanceAmount;
-            order.ContactNumber = realmOrder.ContactNumber;
-            order.Items = new List<OrderItemDto>();
-            order.CreatedDate = realmOrder.CreatedDate.LocalDateTime;
-            order.ModifiedDate = realmOrder.ModifiedDate.LocalDateTime;
-            foreach (var realmOrderItem in realmOrder.Items.OrderByDescending(x => x.Time))
-            {
-                var orderItem = ConvertToDto(realmOrderItem);
-                order.Items.Add(orderItem);
-            }
-            return order;
-        }
+        //public OrderDto ConvertToDto(OrderRealmDto realmOrder)
+        //{
+        //    var order = new OrderDto();
+        //    order.Id = Guid.Parse(realmOrder.Id);
+        //    order.Status = (OrderStatus)realmOrder.Status;
+        //    order.ContactNumber = realmOrder.ContactNumber;
+        //    order.Items = new List<OrderItemDto>();
+        //    order.CreatedDate = realmOrder.CreatedDate.LocalDateTime;
+        //    order.ModifiedDate = realmOrder.ModifiedDate.LocalDateTime;
+        //    foreach (var realmOrderItem in realmOrder.Items.OrderByDescending(x => x.Time))
+        //    {
+        //        var orderItem = ConvertToDto(realmOrderItem);
+        //        order.Items.Add(orderItem);
+        //    }
+        //    return order;
+        //}
 
         public OrderItemDto ConvertToDto(OrderItemRealmDto realmOrderItem)
         {
             var orderItem = new OrderItemDto();
             orderItem.Id = Guid.Parse(realmOrderItem.Id);
             orderItem.Status = (OrderItemStatus)realmOrderItem.Status;
-            orderItem.AdditionalCharge = realmOrderItem.AdditionalCharge;
+            orderItem.ExtraCharge = realmOrderItem.ExtraCharge;
             orderItem.CreatedDate = realmOrderItem.CreatedDate.LocalDateTime;
             orderItem.DeliveryCharge = realmOrderItem.DeliveryCharge;
             orderItem.DesignCharge = realmOrderItem.DesignCharge;
@@ -63,6 +62,9 @@ namespace EnterpriseTracker.Core.RealmObjects
             orderItem.Status = (OrderItemStatus)realmOrderItem.Status;
             orderItem.Time = realmOrderItem.Time.LocalDateTime;
             orderItem.Units = realmOrderItem.Units;
+            orderItem.CarryBag = realmOrderItem.CarryBag;
+            orderItem.Extra = realmOrderItem.Extra;
+            orderItem.ContactNumber = realmOrderItem.ContactNumber;
             //orderItem.Owner = ConvertToDto(realmOrderItem.Owner);
             //orderItem.Customer = ConvertToDto(realmOrderItem.Customer);
             orderItem.Product = ConvertToDto(realmOrderItem.Product);

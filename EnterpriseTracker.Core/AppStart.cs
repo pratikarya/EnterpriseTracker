@@ -16,7 +16,7 @@ namespace EnterpriseTracker.Core
 
         protected override async Task NavigateToFirstViewModel(object hint = null)
         {
-            await NavigationService.Navigate<OrdersListViewModel>();
+            await NavigationService.Navigate<OrderItemsListViewModel>();
         }
     }
 }
