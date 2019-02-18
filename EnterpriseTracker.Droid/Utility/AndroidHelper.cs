@@ -37,6 +37,11 @@ namespace EnterpriseTracker.Droid.Utility
             return (int)(dp * CurrentActivity.Resources.DisplayMetrics.Density);
         }
 
+        public static int ConvertPxToDp(int px)
+        {
+            return (int)(px / CurrentActivity.Resources.DisplayMetrics.Density);
+        }
+
         public static ITheme CurrentTheme { get; set; }
     }
 }

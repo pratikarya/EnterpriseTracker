@@ -1,5 +1,5 @@
 ﻿using Android.OS;
-using MvvmCross.Droid.Support.V4;
+using MvvmCross.Platforms.Android.Views.Fragments;
 using MvvmCross.ViewModels;
 
 namespace EnterpriseTracker.Droid.Fragments

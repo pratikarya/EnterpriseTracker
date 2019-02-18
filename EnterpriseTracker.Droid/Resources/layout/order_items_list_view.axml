@@ -37,7 +37,7 @@
           android:layout_marginTop="5dp"
           android:layout_marginBottom="5dp"
           local:MvxItemTemplate="@layout/ordeitem_cellview"
-          local:MvxBind="ItemsSource OrderItems; ItemClick SelectOrderItemCommand" />
+          local:MvxBind="ItemsSource OrderItems; ItemClick SelectOrderItemCommand; ItemLongClick LongClickCommand" />
 
       </MvvmCross.Droid.Support.V4.MvxSwipeRefreshLayout>
 

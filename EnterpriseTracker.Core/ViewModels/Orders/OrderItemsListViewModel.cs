@@ -82,6 +82,30 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
                 LoadOrderItemsCommand.Execute(null);
             }
         }
+        
+        private MvxCommand<OrderItemDto> _longClickCommand;
+        public ICommand LongClickCommand
+        {
+            get
+            {
+                _longClickCommand = _longClickCommand ?? new MvxCommand<OrderItemDto>(DoItemLongClick);
+                return _longClickCommand;
+            }
+        }
+
+        private void DoItemLongClick(OrderItemDto obj)
+        {
+            Task.Run(() => ItemLongClick(obj));
+        }
+
+        private async Task ItemLongClick(OrderItemDto orderItem)
+        {
+            var updatedItem = await NavigationService.Navigate<UpdateOrderDialogViewModel, OrderItemDto, OrderItemDto>(orderItem);
+            if(updatedItem != null)
+            {
+                LoadOrderItemsCommand.Execute(null);
+            }
+        }
 
         private MvxCommand _loadOrderItemsCommand;
         public ICommand LoadOrderItemsCommand
