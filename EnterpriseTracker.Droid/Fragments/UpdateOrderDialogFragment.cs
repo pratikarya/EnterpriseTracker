@@ -1,13 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using Android.App;
-using Android.Content;
 using Android.OS;
-using Android.Runtime;
-using Android.Util;
 using Android.Views;
 using Android.Widget;
 using EnterpriseTracker.Core.ViewModels.Orders;
@@ -20,6 +13,7 @@ namespace EnterpriseTracker.Droid.Fragments
     {
         LinearLayout _llMain, _llContainer;
         Button _btnDone;
+        OrderStatusControl _control;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -34,8 +28,15 @@ namespace EnterpriseTracker.Droid.Fragments
             _llContainer = view.FindViewById<LinearLayout>(Resource.Id.llContainer);
             _btnDone = view.FindViewById<Button>(Resource.Id.btnDone);
             _btnDone.Click += BtnDone_Click;
-            _llContainer.AddView(new RadioButtonListControl(Activity, ViewModel.CurrentOrder));
+            _control = new OrderStatusControl(Activity, ViewModel.CurrentOrder.Status, ViewModel.CurrentOrder.ToString());
+            _control.StatusChanged = StatusChanged;
+            _llContainer.AddView(_control);
             return view;
+        }
+
+        private void StatusChanged(object sender, EventArgs e)
+        {
+            ViewModel.CurrentOrder.Status = _control.SelectedStatus;
         }
 
         public override void OnStart()

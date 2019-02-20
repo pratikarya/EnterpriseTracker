@@ -17,7 +17,13 @@ namespace EnterpriseTracker.Core
             base.Initialize();
             RegisterCustomAppStart<AppStart>();
             InitAppContents();
+            InitData();
             InitUsers();
+        }
+
+        private void InitData()
+        {
+
         }
 
         private void InitUsers()

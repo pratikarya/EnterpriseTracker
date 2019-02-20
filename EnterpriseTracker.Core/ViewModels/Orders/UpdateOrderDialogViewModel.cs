@@ -12,7 +12,7 @@ using System.Windows.Input;
 
 namespace EnterpriseTracker.Core.ViewModels.Orders
 {
-    public class UpdateOrderDialogViewModel : BaseViewModel<OrderItemDto, OrderItemDto>
+    public class UpdateOrderDialogViewModel : BaseViewModel<OrderDto, OrderDto>
     {
         public IRealmService RealmService { get; set; }
         public IUIService UIService { get; set; }
@@ -23,13 +23,13 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
             UIService = uiService;
         }
 
-        public override void PrepareImpl(OrderItemDto param)
+        public override void PrepareImpl(OrderDto param)
         {
             CurrentOrder = param;
         }
 
-        private OrderItemDto _currentOrder;
-        public OrderItemDto CurrentOrder
+        private OrderDto _currentOrder;
+        public OrderDto CurrentOrder
         {
             get { return _currentOrder; }
             set
@@ -58,7 +58,7 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
         {
             try
             {
-                var res = RealmService.UpdateOrderItem(new SearchDto<OrderItemDto>
+                var res = RealmService.UpdateOrder(new SearchDto<OrderDto>
                 {
                     RequestDto = CurrentOrder
                 });

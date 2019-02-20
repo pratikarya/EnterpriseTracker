@@ -13,27 +13,27 @@ using System.Windows.Input;
 
 namespace EnterpriseTracker.Core.ViewModels.Orders
 {
-    public class OrderItemDetailViewModel : BaseViewModel<OrderItemDto, OrderItemDto>
+    public class OrderDetailViewModel : BaseViewModel<OrderDto, OrderDto>
     {
         public IRealmService RealmService { get; set; }
         public IUIService UIService { get; set; }
 
-        public OrderItemDetailViewModel(IRealmService realmService, IUIService uiService)
+        public OrderDetailViewModel(IRealmService realmService, IUIService uiService)
         {
             RealmService = realmService;
             UIService = uiService;
         }
 
-        public bool IsNewOrderItem { get; set; }
+        public bool IsNewOrder { get; set; }
 
-        public override void PrepareImpl(OrderItemDto param)
+        public override void PrepareImpl(OrderDto param)
         {
-            IsNewOrderItem = param == null;
-            if (!IsNewOrderItem)
+            IsNewOrder = param == null;
+            if (!IsNewOrder)
             {
-                CurrentOrderItem = param;
+                CurrentOrder = param;
 
-                //CurrentOrderItem = new OrderItemDto
+                //CurrentOrder = new OrderDto
                 //{
                 //    Id = param.Id,
                 //    AdditionalCharge = param.AdditionalCharge,
@@ -57,7 +57,7 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
 
         public override Task Initialize()
         {
-            ButtonText = IsNewOrderItem ? "Create" : "Update";
+            ButtonText = IsNewOrder ? "Create" : "Update";
             return base.Initialize();
         }
 
@@ -72,14 +72,14 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
             }
         }
 
-        private OrderItemDto _currentOrderItem = new OrderItemDto();
-        public OrderItemDto CurrentOrderItem
+        private OrderDto _currentOrder = new OrderDto();
+        public OrderDto CurrentOrder
         {
-            get { return _currentOrderItem; }
+            get { return _currentOrder; }
             set
             {
-                _currentOrderItem = value;
-                RaisePropertyChanged(() => CurrentOrderItem);
+                _currentOrder = value;
+                RaisePropertyChanged(() => CurrentOrder);
             }
         }
 
@@ -129,8 +129,8 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
             }
         }
 
-        private List<OrderItemStatus> _statusList;
-        public List<OrderItemStatus> StatusList
+        private List<OrderStatus> _statusList;
+        public List<OrderStatus> StatusList
         {
             get { return _statusList; }
             set
@@ -140,8 +140,8 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
             }
         }
         
-        private OrderItemStatus _selectedStatus;
-        public OrderItemStatus SelectedStatus
+        private OrderStatus _selectedStatus;
+        public OrderStatus SelectedStatus
         {
             get { return _selectedStatus; }
             set
@@ -168,23 +168,23 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
                 UIService.ShowDialog(true);
                 try
                 {
-                    CurrentOrderItem.Product = SelectedProduct;
-                    CurrentOrderItem.Status = SelectedStatus;
+                    CurrentOrder.Product = SelectedProduct;
+                    CurrentOrder.Status = SelectedStatus;
 
                     //TODO : Proper order adding validations. For example id check, quantity check, product check, message check, etc.
-                    if (ValidateOrderItem())
+                    if (ValidateOrder())
                     {
-                        if (IsNewOrderItem)
-                            CurrentOrderItem.CreatedDate = DateTime.Now;
-                        CurrentOrderItem.ModifiedDate = DateTime.Now;
-                        var res = RealmService.UpdateOrderItem(new Core.Common.Contract.Dto.SearchDto<OrderItemDto>
+                        if (IsNewOrder)
+                            CurrentOrder.CreatedDate = DateTime.Now;
+                        CurrentOrder.ModifiedDate = DateTime.Now;
+                        var res = RealmService.UpdateOrder(new Core.Common.Contract.Dto.SearchDto<OrderDto>
                         {
-                            RequestDto = CurrentOrderItem
+                            RequestDto = CurrentOrder
                         });
                         if(res?.IsValid == true)
                         {
-                            CurrentOrderItem = res.Result;
-                            NavigationService.Close(this, CurrentOrderItem);
+                            CurrentOrder = res.Result;
+                            NavigationService.Close(this, CurrentOrder);
                         }
                     }
                 }
@@ -196,11 +196,11 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
             });
         }
 
-        private bool ValidateOrderItem()
+        private bool ValidateOrder()
         {
             string message = "";
 
-            if (CurrentOrderItem.Units == 0.0f)
+            if (CurrentOrder.Units == 0.0f)
             {
                 message += "Quantity must be specified.\n";
             }
@@ -234,7 +234,7 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
                     if (res?.IsValid == true && res.Result != null)
                     {
                         Categories = res.Result;
-                        StatusList = Enum.GetValues(typeof(OrderItemStatus)).Cast<OrderItemStatus>().ToList();
+                        StatusList = Enum.GetValues(typeof(OrderStatus)).Cast<OrderStatus>().ToList();
                         InitDefaults();
                     }
                 }
@@ -248,24 +248,24 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
 
         private void InitDefaults()
         {
-            if(IsNewOrderItem)
+            if(IsNewOrder)
             {
                 SelectedCategory = Categories.First();                
                 SelectedProduct = Products.First();
-                CurrentOrderItem.Units = 0.5f;
+                CurrentOrder.Units = 0.5f;
 
                 var date = DateTime.Now;
                 var span = new TimeSpan(1, 0, 0);
                 long ticks = (date.Ticks + span.Ticks - 1)/ span.Ticks;
 
-                CurrentOrderItem.Time = new DateTime(ticks * span.Ticks);
-                SelectedStatus = OrderItemStatus.Confirmed;
+                CurrentOrder.Time = new DateTime(ticks * span.Ticks);
+                SelectedStatus = OrderStatus.Confirmed;
             }
             else
             {
-                SelectedCategory = Categories.First(x => x.Products.Any(y => y.Id == CurrentOrderItem.Product.Id));
-                SelectedProduct = Products.First(x => x.Id == CurrentOrderItem.Product.Id);
-                SelectedStatus = CurrentOrderItem.Status;
+                SelectedCategory = Categories.First(x => x.Products.Any(y => y.Id == CurrentOrder.Product.Id));
+                SelectedProduct = Products.First(x => x.Id == CurrentOrder.Product.Id);
+                SelectedStatus = CurrentOrder.Status;
 
                 var selectedCatIndex = Categories.IndexOf(SelectedCategory);
                 var selectedProdIndex = Products.IndexOf(SelectedProduct);
@@ -284,7 +284,7 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
                 SelectedProduct = Products.First();
                 SelectedStatus = StatusList.First();
             }
-            RaisePropertyChanged(() => CurrentOrderItem);
+            RaisePropertyChanged(() => CurrentOrder);
         }
 
         private MvxCommand _backCommand;

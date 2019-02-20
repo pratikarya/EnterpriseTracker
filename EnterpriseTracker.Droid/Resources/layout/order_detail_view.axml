@@ -169,7 +169,7 @@
           android:textColor="@color/textColor"
           android:inputType="numberDecimal"
           android:hint="Units"
-          local:MvxBind="Text CurrentOrderItem.Units"/>
+          local:MvxBind="Text CurrentOrder.Units"/>
 
       </LinearLayout>
       
@@ -198,7 +198,7 @@
           android:textSize="14dp"
           android:textColor="@color/textColor"
           android:hint="Message"
-          local:MvxBind="Text CurrentOrderItem.Message"/>
+          local:MvxBind="Text CurrentOrder.Message"/>
 
       </LinearLayout>
 
@@ -228,7 +228,7 @@
           android:inputType="numberDecimal"
           android:textColor="@color/textColor"
           android:hint="Contact Number"
-          local:MvxBind="Text CurrentOrderItem.ContactNumber"/>
+          local:MvxBind="Text CurrentOrder.ContactNumber"/>
 
       </LinearLayout>
       
@@ -258,7 +258,7 @@
           android:textColor="@color/textColor"
           android:hint="Details"
           android:scrollbars="vertical"
-          local:MvxBind="Text CurrentOrderItem.Details"/>
+          local:MvxBind="Text CurrentOrder.Details"/>
 
       </LinearLayout>
       
@@ -288,7 +288,7 @@
           android:inputType="numberDecimal"
           android:textColor="@color/textColor"
           android:hint="Advance"
-          local:MvxBind="Text CurrentOrderItem.AdvanceAmount"/>
+          local:MvxBind="Text CurrentOrder.AdvanceAmount"/>
 
       </LinearLayout>
       
@@ -318,7 +318,7 @@
           android:inputType="numberDecimal"
           android:textColor="@color/textColor"
           android:hint="Design charge"
-          local:MvxBind="Text CurrentOrderItem.DesignCharge"/>
+          local:MvxBind="Text CurrentOrder.DesignCharge"/>
 
       </LinearLayout>
 
@@ -349,7 +349,7 @@
           android:inputType="numberDecimal"
           android:textColor="@color/textColor"
           android:hint="Extra charge"
-          local:MvxBind="Text CurrentOrderItem.ExtraCharge"/>
+          local:MvxBind="Text CurrentOrder.ExtraCharge"/>
 
       </LinearLayout>
 
@@ -364,7 +364,7 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:text="Carry Bag"
-          local:MvxBind="Checked CurrentOrderItem.CarryBag" />
+          local:MvxBind="Checked CurrentOrder.CarryBag" />
 
         <View
           android:layout_width="match_parent"
@@ -376,7 +376,7 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:text="Extra"
-          local:MvxBind="Checked CurrentOrderItem.Extra" />
+          local:MvxBind="Checked CurrentOrder.Extra" />
         
       </LinearLayout>
       
@@ -411,7 +411,7 @@
       android:textSize="16dp"
       android:textStyle="bold"
       android:textColor="@color/textColor"
-      local:MvxBind="Text CurrentOrderItem.TotalAmount"/>
+      local:MvxBind="Text CurrentOrder.TotalAmount"/>
 
   </LinearLayout>
 

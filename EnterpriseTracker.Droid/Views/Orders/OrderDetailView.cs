@@ -14,7 +14,7 @@ using MvvmCross.Platforms.Android.Binding.Views;
 namespace EnterpriseTracker.Droid.Views.Orders
 {
     [Activity(Label = "")]
-    public class OrderItemDetailView : BaseActivity<OrderItemDetailViewModel>
+    public class OrderDetailView : BaseActivity<OrderDetailViewModel>
     {
         Android.Support.V7.Widget.Toolbar _toolbar;
         TextView _toolbarTitle;
@@ -37,7 +37,7 @@ namespace EnterpriseTracker.Droid.Views.Orders
         {
             base.OnCreate(savedInstanceState);
 
-            SetContentView(Resource.Layout.order_item_detail_view);
+            SetContentView(Resource.Layout.order_detail_view);
 
             GetReferences();
 
@@ -68,10 +68,10 @@ namespace EnterpriseTracker.Droid.Views.Orders
                 {
                 }
             }
-            if (e.PropertyName == "CurrentOrderItem")
+            if (e.PropertyName == "CurrentOrder")
             {
-                _etDateTime.Text = ViewModel.CurrentOrderItem.Time.ToString("ddd d MMM - hh : mm tt", CultureInfo.InvariantCulture);
-                _txtTotalValue.Text = ViewModel.CurrentOrderItem.TotalAmount.ToString();
+                _etDateTime.Text = ViewModel.CurrentOrder.Time.ToString("ddd d MMM - hh : mm tt", CultureInfo.InvariantCulture);
+                _txtTotalValue.Text = ViewModel.CurrentOrder.TotalAmount.ToString();
             }
         }
 
@@ -80,7 +80,7 @@ namespace EnterpriseTracker.Droid.Views.Orders
 
         }
 
-        private void _sfpCategories_OnPickerItemLoaded(object sender, PickerViewEventsArgs e)
+        private void _sfpCategories_OnPickerLoaded(object sender, PickerViewEventsArgs e)
         {
 
         }
@@ -89,7 +89,7 @@ namespace EnterpriseTracker.Droid.Views.Orders
         {
             _datePickerDialog = new DatePickerDialog(this, (sender, args) =>
             {
-                ViewModel.CurrentOrderItem.Time = args.Date;
+                ViewModel.CurrentOrder.Time = args.Date;
                 _datePickerDialog.Dismiss();
                 _timePickerDialog.Show();
             }, DateTime.Now.Year, DateTime.Now.Month - 1, DateTime.Now.Day);
@@ -99,11 +99,11 @@ namespace EnterpriseTracker.Droid.Views.Orders
             };
             _timePickerDialog = new TimePickerDialog(this, (sender, args) =>
             {
-                ViewModel.CurrentOrderItem.Time = ViewModel.CurrentOrderItem.Time.AddHours(args.HourOfDay);
-                ViewModel.CurrentOrderItem.Time = ViewModel.CurrentOrderItem.Time.AddMinutes(args.Minute);
-                ViewModel.CurrentOrderItem.Time.AddHours(args.HourOfDay);
-                ViewModel.CurrentOrderItem.Time.AddMinutes(args.Minute);
-                _etDateTime.Text = ViewModel.CurrentOrderItem.Time.ToString("ddd d MMM - hh : mm tt", CultureInfo.InvariantCulture);
+                ViewModel.CurrentOrder.Time = ViewModel.CurrentOrder.Time.AddHours(args.HourOfDay);
+                ViewModel.CurrentOrder.Time = ViewModel.CurrentOrder.Time.AddMinutes(args.Minute);
+                ViewModel.CurrentOrder.Time.AddHours(args.HourOfDay);
+                ViewModel.CurrentOrder.Time.AddMinutes(args.Minute);
+                _etDateTime.Text = ViewModel.CurrentOrder.Time.ToString("ddd d MMM - hh : mm tt", CultureInfo.InvariantCulture);
                 _timePickerDialog.Dismiss();
             }, DateTime.Now.Hour, DateTime.Now.Minute, Android.Text.Format.DateFormat.Is24HourFormat(this));
             _etDateTime.ShowSoftInputOnFocus = false;

@@ -10,16 +10,19 @@ using System;
 
 namespace EnterpriseTracker.Droid.Controls
 {
-    public class RadioButtonListControl : LinearLayout
+    public class OrderStatusControl : LinearLayout
     {
-        OrderItemDto Order { get; set; }
+        string Text;
+        public OrderStatus SelectedStatus { get; set; }
+        public EventHandler StatusChanged;
         List<RadioButton> _buttonList = new List<RadioButton>();
         TextView Label;
         private bool _isReview;
 
-        public RadioButtonListControl(Context context, OrderItemDto order) : base(context)
+        public OrderStatusControl(Context context, OrderStatus selectedStatus, string text) : base(context)
         {
-            Order = order;
+            SelectedStatus = selectedStatus;
+            Text = text;
             Orientation = Orientation.Vertical;
             LayoutParameters = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent)
             {
@@ -30,10 +33,11 @@ namespace EnterpriseTracker.Droid.Controls
             };
 
             Label = new TextView(context);
-            Label.TextSize = 16;
+            Label.TextSize = 18;
             Label.SetTextColor(Resources.GetColor(Resource.Color.highlightColor));
             Label.LayoutParameters = new LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent)
             {
+                TopMargin = AndroidHelper.ConvertDpToPx(5),
                 BottomMargin = AndroidHelper.ConvertDpToPx(5)
             };
             
@@ -42,17 +46,17 @@ namespace EnterpriseTracker.Droid.Controls
             PopulateControl();
         }
 
-        public void Update(OrderItemDto order)
+        public void Update(OrderStatus status)
         {
-            Order = order;
+            SelectedStatus = status;
             ClearItems();
             PopulateControl();
         }
 
         private void PopulateControl()
         {
-            Label.Text = Order.ToString();
-            var list = Enum.GetValues(typeof(OrderItemStatus)).Cast<OrderItemStatus>().ToList();
+            Label.Text = Text;
+            var list = Enum.GetValues(typeof(OrderStatus)).Cast<OrderStatus>().ToList();
 
             for (int i = 0; i < list.Count; i++)
             {
@@ -74,7 +78,7 @@ namespace EnterpriseTracker.Droid.Controls
 
                 AddView(radioButton);
 
-                if (Order.Status == list[i])
+                if (SelectedStatus == list[i])
                 {
                     radioButton.Selected = true;
                     radioButton.Checked = true;
@@ -98,7 +102,8 @@ namespace EnterpriseTracker.Droid.Controls
                         }
                     }
 
-                    Order.Status = list.FirstOrDefault(x => x.ToString() == radio.Text);
+                    SelectedStatus = list.FirstOrDefault(x => x.ToString() == radio.Text);
+                    StatusChanged?.Invoke(this, null);
                 };
             }
         }

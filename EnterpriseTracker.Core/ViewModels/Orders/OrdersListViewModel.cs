@@ -1,15 +1,11 @@
 ﻿using EnterpriseTracker.Core.AppContents.Order.Contract.Dto;
-using EnterpriseTracker.Core.Message;
-using EnterpriseTracker.Core.Order.Contract.Dto;
+using EnterpriseTracker.Core.Common.Contract.Dto;
 using EnterpriseTracker.Core.RealmObjects;
 using EnterpriseTracker.Core.UI;
-using EnterpriseTracker.Core.Utility;
 using EnterpriseTracker.Core.ViewModels.Common;
 using MvvmCross.Commands;
-using MvvmCross.Plugin.Messenger;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -17,8 +13,6 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
 {
     public class OrdersListViewModel : BaseViewModel
     {
-        MvxSubscriptionToken _ordersListUpdatedToken;
-
         public IRealmService RealmService { get; set; }
         public IUIService UIService { get; set; }
 
@@ -26,25 +20,33 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
         {
             RealmService = realmService;
             UIService = uiService;
-
-            _ordersListUpdatedToken = Messenger.Subscribe<OrdersListUpdatedMessage>((message) =>
-            {
-                LoadOrdersCommand.Execute(null);
-            });
         }
 
         private List<OrderDto> _orders = new List<OrderDto>();
         public List<OrderDto> Orders
         {
             get { return _orders; }
-            set {
+            set
+            {
                 _orders = value;
                 RaisePropertyChanged(() => Orders);
             }
         }
 
+        private DateTime? _selectedDate;
+        public DateTime? SelectedDate
+        {
+            get { return _selectedDate; }
+            set
+            {
+                _selectedDate = value;
+                LoadOrdersCommand.Execute(null);
+                RaisePropertyChanged(() => SelectedDate);
+            }
+        }
+
         private MvxCommand<OrderDto> _selectOrderCommand;
-        public ICommand SelectedOrderCommand
+        public ICommand SelectOrderCommand
         {
             get
             {
@@ -55,37 +57,58 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
 
         private async void DoSelectOrder(OrderDto order)
         {
-            //var updatedOrder = await NavigationService.Navigate<OrderItemsListViewModel, OrderDto, OrderDto>(order);
-            //if (updatedOrder != null)
-            //{
-            //    //If selected order was updated, reload.
-            //    order = updatedOrder;
-            //    RaisePropertyChanged(() => Orders);
-            //}
-        }
-
-        private MvxCommand _createOrderCommand;
-        public ICommand CreateOrderCommand
-        {
-            get
+            var updatedOrder = await NavigationService.Navigate<OrderDetailViewModel, OrderDto, OrderDto>(order);
+            if(updatedOrder != null)
             {
-                _createOrderCommand = _createOrderCommand ?? new MvxCommand(DoCreateOrder);
-                return _createOrderCommand;
+                LoadOrdersCommand.Execute(null);
             }
         }
 
-        private async void DoCreateOrder()
+        private MvxCommand _addOrderCommand;
+        public ICommand AddOrderCommand
         {
-            //var newOrder = await NavigationService.Navigate<OrderItemsListViewModel, OrderDto, OrderDto>(null);
-            //if (newOrder != null)
-            //{
-            //    Orders.Add(newOrder);
-            //    RaisePropertyChanged(() => Orders);
-            //}
+            get
+            {
+                _addOrderCommand = _addOrderCommand ?? new MvxCommand(DoAddOrder);
+                return _addOrderCommand;
+            }
+        }
+
+        private async void DoAddOrder()
+        {
+            var newOrder = await NavigationService.Navigate<OrderDetailViewModel, OrderDto, OrderDto>(null);
+            if(newOrder != null)
+            {
+                LoadOrdersCommand.Execute(null);
+            }
+        }
+        
+        private MvxCommand<OrderDto> _longClickCommand;
+        public ICommand LongClickCommand
+        {
+            get
+            {
+                _longClickCommand = _longClickCommand ?? new MvxCommand<OrderDto>(DoLongClick);
+                return _longClickCommand;
+            }
+        }
+
+        private void DoLongClick(OrderDto obj)
+        {
+            Task.Run(() => LongClick(obj));
+        }
+
+        private async Task LongClick(OrderDto order)
+        {
+            var updated = await NavigationService.Navigate<UpdateOrderDialogViewModel, OrderDto, OrderDto>(order);
+            if(updated != null)
+            {
+                LoadOrdersCommand.Execute(null);
+            }
         }
 
         private MvxCommand _loadOrdersCommand;
-        public ICommand  LoadOrdersCommand
+        public ICommand LoadOrdersCommand
         {
             get
             {
@@ -101,11 +124,15 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
                 UIService.ShowDialog(true);
                 try
                 {
-                    //var res = RealmService.GetOrders();
-                    //if (res.IsValid && res.Result.Count > 0)
-                    //{
-                    //    Orders = res.Result.OrderBy(x => x.Time.Value).ToList();
-                    //}
+                    var searchDto = new OrdersSearchDto
+                    {
+                        Date = SelectedDate
+                    };
+                    var res = RealmService.GetOrders(searchDto);
+                    if (res.IsValid && res.Result != null)
+                    {
+                        Orders = res.Result;
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -136,15 +163,6 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
                     Task.Run(() => DoLoadOrders());
                     IsRefreshing = false;
                 });
-            }
-        }
-
-        public override void DisposeImpl()
-        {
-            base.DisposeImpl();
-            if(_ordersListUpdatedToken != null)
-            {
-                _ordersListUpdatedToken.Dispose();
             }
         }
     }

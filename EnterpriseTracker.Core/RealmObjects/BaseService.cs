@@ -1,7 +1,6 @@
 ﻿using EnterpriseTracker.Core.AppContents.Category.Contract.Dto;
 using EnterpriseTracker.Core.AppContents.Order.Contract.Dto;
 using EnterpriseTracker.Core.AppContents.Product.Contract.Dto;
-using EnterpriseTracker.Core.Order.Contract.Dto;
 using EnterpriseTracker.Core.RealmObjects.Category.Contract.Dto;
 using EnterpriseTracker.Core.RealmObjects.Order.Contract.Dto;
 using EnterpriseTracker.Core.RealmObjects.Product.Contract.Dto;
@@ -11,8 +10,6 @@ using EnterpriseTracker.Core.Utility;
 using Realms;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace EnterpriseTracker.Core.RealmObjects
 {
@@ -27,48 +24,31 @@ namespace EnterpriseTracker.Core.RealmObjects
                 SchemaVersion = Constants.RealmSchemaVersion
             };
         }
-
-        //public OrderDto ConvertToDto(OrderRealmDto realmOrder)
-        //{
-        //    var order = new OrderDto();
-        //    order.Id = Guid.Parse(realmOrder.Id);
-        //    order.Status = (OrderStatus)realmOrder.Status;
-        //    order.ContactNumber = realmOrder.ContactNumber;
-        //    order.Items = new List<OrderItemDto>();
-        //    order.CreatedDate = realmOrder.CreatedDate.LocalDateTime;
-        //    order.ModifiedDate = realmOrder.ModifiedDate.LocalDateTime;
-        //    foreach (var realmOrderItem in realmOrder.Items.OrderByDescending(x => x.Time))
-        //    {
-        //        var orderItem = ConvertToDto(realmOrderItem);
-        //        order.Items.Add(orderItem);
-        //    }
-        //    return order;
-        //}
-
-        public OrderItemDto ConvertToDto(OrderItemRealmDto realmOrderItem)
+        
+        public OrderDto ConvertToDto(OrderRealmDto realmOrder)
         {
-            var orderItem = new OrderItemDto();
-            orderItem.Id = Guid.Parse(realmOrderItem.Id);
-            orderItem.Status = (OrderItemStatus)realmOrderItem.Status;
-            orderItem.ExtraCharge = realmOrderItem.ExtraCharge;
-            orderItem.CreatedDate = realmOrderItem.CreatedDate.LocalDateTime;
-            orderItem.DeliveryCharge = realmOrderItem.DeliveryCharge;
-            orderItem.DesignCharge = realmOrderItem.DesignCharge;
-            orderItem.Details = realmOrderItem.Details;
-            orderItem.Images = realmOrderItem.Images;
-            orderItem.Message = realmOrderItem.Message;
-            orderItem.ModifiedDate = realmOrderItem.ModifiedDate.LocalDateTime;
-            orderItem.PrintCharge = realmOrderItem.PrintCharge;
-            orderItem.Status = (OrderItemStatus)realmOrderItem.Status;
-            orderItem.Time = realmOrderItem.Time.LocalDateTime;
-            orderItem.Units = realmOrderItem.Units;
-            orderItem.CarryBag = realmOrderItem.CarryBag;
-            orderItem.Extra = realmOrderItem.Extra;
-            orderItem.ContactNumber = realmOrderItem.ContactNumber;
-            //orderItem.Owner = ConvertToDto(realmOrderItem.Owner);
-            //orderItem.Customer = ConvertToDto(realmOrderItem.Customer);
-            orderItem.Product = ConvertToDto(realmOrderItem.Product);
-            return orderItem;
+            var order = new OrderDto();
+            order.Id = Guid.Parse(realmOrder.Id);
+            order.Status = (OrderStatus)realmOrder.Status;
+            order.ExtraCharge = realmOrder.ExtraCharge;
+            order.CreatedDate = realmOrder.CreatedDate.LocalDateTime;
+            order.DeliveryCharge = realmOrder.DeliveryCharge;
+            order.DesignCharge = realmOrder.DesignCharge;
+            order.Details = realmOrder.Details;
+            order.Images = realmOrder.Images;
+            order.Message = realmOrder.Message;
+            order.ModifiedDate = realmOrder.ModifiedDate.LocalDateTime;
+            order.PrintCharge = realmOrder.PrintCharge;
+            order.Status = (OrderStatus)realmOrder.Status;
+            order.Time = realmOrder.Time.LocalDateTime;
+            order.Units = realmOrder.Units;
+            order.CarryBag = realmOrder.CarryBag;
+            order.Extra = realmOrder.Extra;
+            order.ContactNumber = realmOrder.ContactNumber;
+            //order.Owner = ConvertToDto(realmOrder.Owner);
+            //order.Customer = ConvertToDto(realmOrder.Customer);
+            order.Product = ConvertToDto(realmOrder.Product);
+            return order;
         }
 
         public ProductDto ConvertToDto(ProductRealmDto realmProduct)

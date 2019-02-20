@@ -148,10 +148,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Adapters\CommonListAdapter.cs" />
-    <Compile Include="Adapters\OrderItemsAdapter.cs" />
     <Compile Include="Adapters\OrdersAdapter.cs" />
     <Compile Include="Controls\DropdownControl.cs" />
-    <Compile Include="Controls\RadioButtonListControl.cs" />
+    <Compile Include="Controls\OrderStatusControl.cs" />
     <Compile Include="Controls\SeperatorControl.cs" />
     <Compile Include="Fragments\BaseDialogFragment.cs" />
     <Compile Include="Fragments\CommonListFragment.cs" />
@@ -164,12 +163,10 @@
     <Compile Include="Utility\DefaultTheme.cs" />
     <Compile Include="Utility\FabScrollBehaviour.cs" />
     <Compile Include="Utility\AndroidHelper.cs" />
-    <Compile Include="ViewHolders\OrderItemViewHolder.cs" />
     <Compile Include="ViewHolders\OrderViewHolder.cs" />
     <Compile Include="Views\Common\BaseActivity.cs" />
-    <Compile Include="Views\Orders\OrderItemDetailView.cs" />
+    <Compile Include="Views\Orders\OrderDetailView.cs" />
     <Compile Include="Views\Orders\OrdersListView.cs" />
-    <Compile Include="Views\Orders\OrderItemsListView.cs" />
     <Compile Include="Views\SplashScreenView.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -180,10 +177,7 @@
     <AndroidResource Include="Resources\layout\toolbar.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\orders_list_view.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-    <AndroidResource Include="Resources\layout\ordeitem_cellview.axml">
+    <AndroidResource Include="Resources\layout\order_cellview.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
@@ -274,12 +268,7 @@
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_cancel.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\order_items_list_view.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\order_cellview.axml">
+    <AndroidResource Include="Resources\layout\orders_list_view.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
@@ -288,7 +277,7 @@
     <AndroidResource Include="Resources\layout\commonlist_cellview.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\order_item_detail_view.axml">
+    <AndroidResource Include="Resources\layout\order_detail_view.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\spn_item_template.axml">
@@ -298,6 +287,13 @@
     <AndroidResource Include="Resources\layout\update_order_dialog.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\drawable-hdpi\ic_calendar.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_calendar.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_calendar.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_calendar.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_calendar.png" />
+    <AndroidResource Include="Resources\menu\menu_main.xml" />
+    <AndroidResource Include="Resources\drawable\no_data_2.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Annotations.27.0.2.1\build\MonoAndroid81\Xamarin.Android.Support.Annotations.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Annotations.27.0.2.1\build\MonoAndroid81\Xamarin.Android.Support.Annotations.targets')" />
