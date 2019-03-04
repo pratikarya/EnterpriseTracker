@@ -3,10 +3,14 @@ using EnterpriseTracker.Core.AppContents.Order.Contract.Dto;
 using EnterpriseTracker.Core.Common.Contract.Dto;
 using EnterpriseTracker.Core.RealmObjects.Category.Contract.Dto;
 using EnterpriseTracker.Core.RealmObjects.Common.Contract.Dto;
+using EnterpriseTracker.Core.RealmObjects.Media.Contract.Dto;
 using EnterpriseTracker.Core.RealmObjects.Order.Contract.Dto;
 using EnterpriseTracker.Core.RealmObjects.Product.Contract.Dto;
 using EnterpriseTracker.Core.RealmObjects.User.Contract.Dto;
 using EnterpriseTracker.Core.User.Contract.Dto;
+using EnterpriseTracker.Core.Utility;
+using MvvmCross;
+using MvvmCross.Logging;
 using Realms;
 using System;
 using System.Collections.Generic;
@@ -62,6 +66,90 @@ namespace EnterpriseTracker.Core.RealmObjects.Order
                     realmOrder.Time = order.Time;
                     realmOrder.Units = order.Units;
 
+                    var realmMedias = realm.All<MediaRealmDto>().ToList();
+                    if (order.MediaList?.Count > 0)
+                    {
+                        foreach (var media in order.MediaList)
+                        {
+                            var realmMedia = realmMedias.FirstOrDefault(x => x.Id == media.Id.ToString());
+                            var isNewMedia = realmMedia == null;
+                            if (isNewMedia)
+                            {
+                                Guid newMediaId;
+                                do
+                                {
+                                    newMediaId = Guid.NewGuid();
+                                }
+                                while (newMediaId == Guid.Empty || realmMedias.Any(x => x.Id == newMediaId.ToString()));
+
+                                realmMedia = new MediaRealmDto();
+                                realmMedia.Id = newMediaId.ToString();
+                                media.Id = newMediaId;
+                            }
+                            realmMedia.Bytes = media.Bytes;
+                            realmMedia.Url = media.Url;
+                            realmMedia.Type = (int)media.Type;
+                            if (isNewMedia)
+                            {
+                                realm.Add(realmMedia);
+                                realmOrder.MediaList.Add(realmMedia);
+                            }
+                        }
+                    }
+
+                    if(order.Print != null)
+                    {
+                        var realmPrints = realm.All<PrintRealmDto>().ToList();
+                        var realmPrint = realmPrints.FirstOrDefault(x => x.Id == order.Print.Id.ToString());
+
+                        var isNewPrint = realmPrint == null;
+                        if (isNewPrint)
+                        {
+                            Guid newPrintId;
+                            do
+                            {
+                                newPrintId = Guid.NewGuid();
+                            }
+                            while (newPrintId == Guid.Empty || realmPrints.Any(x => x.Id == newPrintId.ToString()));
+
+                            realmPrint = new PrintRealmDto();
+                            realmPrint.Id = newPrintId.ToString();
+                            order.Print.Id = newPrintId;
+                        }
+                        realmPrint.PrintShape = (int)order.Print.PrintShape;
+                        realmPrint.Height = order.Print.Height;
+                        realmPrint.Width = order.Print.Width;
+
+                        var realmMedia = realmMedias.FirstOrDefault(x => x.Id == order.Print.Media.Id.ToString());
+                        var isNewMedia = realmMedia == null;
+                        if (isNewMedia)
+                        {
+                            Guid newMediaId;
+                            do
+                            {
+                                newMediaId = Guid.NewGuid();
+                            }
+                            while (newMediaId == Guid.Empty || realmMedias.Any(x => x.Id == newMediaId.ToString()));
+
+                            realmMedia = new MediaRealmDto();
+                            realmMedia.Id = newMediaId.ToString();
+                            order.Print.Media.Id = newMediaId;
+                        }
+                        realmMedia.Bytes = order.Print.Media.Bytes;
+                        realmMedia.Url = order.Print.Media.Url;
+                        realmMedia.Type = (int)order.Print.Media.Type;
+                        if (isNewMedia)
+                        {
+                            realm.Add(realmMedia);
+                            realmPrint.Media = realmMedia;
+                        }
+                        if (isNewPrint)
+                        {
+                            realm.Add(realmPrint);
+                            realmOrder.Print = realmPrint;
+                        }
+                    }
+
                     var realmProduct = realm.Find<ProductRealmDto>(order.Product.Id.ToString());
                     //var realmOwner = realm.Find<UserRealmDto>(order.Owner.Id.ToString());
                     //var realmCustomer = realm.Find<UserRealmDto>(order.Customer.Id.ToString());
@@ -100,7 +188,9 @@ namespace EnterpriseTracker.Core.RealmObjects.Order
                 catch (Exception ex)
                 {
                     result.Result = null;
+                    result.ErrorMessage = ex.Message;
                     result.Status = ResultStatus.ServerError;
+                    Mvx.IoCProvider.Resolve<IMvxLog>().Trace(ex, "", null);
                 }
             });
             return result;
@@ -153,10 +243,12 @@ namespace EnterpriseTracker.Core.RealmObjects.Order
                 result.Result = category;
                 result.Status = ResultStatus.Ok;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 result.Result = null;
+                result.ErrorMessage = ex.Message;
                 result.Status = ResultStatus.ServerError;
+                Mvx.IoCProvider.Resolve<IMvxLog>().Trace(ex, "", null);
             }
             return result;
         }
@@ -189,10 +281,12 @@ namespace EnterpriseTracker.Core.RealmObjects.Order
                 result.Result = user;
                 result.Status = ResultStatus.Ok;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 result.Result = null;
+                result.ErrorMessage = ex.Message;
                 result.Status = ResultStatus.ServerError;
+                Mvx.IoCProvider.Resolve<IMvxLog>().Trace(ex, "", null);
             }
             return result;
         }
@@ -214,10 +308,12 @@ namespace EnterpriseTracker.Core.RealmObjects.Order
                 result.Result = categories;
                 result.Status = ResultStatus.Ok;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 result.Result = null;
+                result.ErrorMessage = ex.Message;
                 result.Status = ResultStatus.ServerError;
+                Mvx.IoCProvider.Resolve<IMvxLog>().Trace(ex, "", null);
             }
             return result;
         }
@@ -247,7 +343,9 @@ namespace EnterpriseTracker.Core.RealmObjects.Order
             catch (Exception ex)
             {
                 result.Result = null;
+                result.ErrorMessage = ex.Message;
                 result.Status = ResultStatus.ServerError;
+                Mvx.IoCProvider.Resolve<IMvxLog>().Trace(ex, "", null);
             }
             return result;
         }

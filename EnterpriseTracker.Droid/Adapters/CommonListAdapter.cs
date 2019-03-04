@@ -1,6 +1,8 @@
 ﻿using Android.Content;
 using Android.Views;
 using Android.Widget;
+using MvvmCross;
+using MvvmCross.Logging;
 using System;
 using System.Collections.Generic;
 
@@ -48,7 +50,7 @@ namespace EnterpriseTracker.Droid.Adapters
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine(ex.Message);
+                Mvx.IoCProvider.Resolve<IMvxLog>().Trace(ex, "", null);
             }
             return row;
         }

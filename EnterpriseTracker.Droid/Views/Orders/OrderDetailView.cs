@@ -1,14 +1,22 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Globalization;
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 using Android.App;
+using Android.Graphics;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
 using Com.Syncfusion.SfPicker;
 using EnterpriseTracker.Core.AppContents.Product.Contract.Dto;
+using EnterpriseTracker.Core.Utility;
 using EnterpriseTracker.Core.ViewModels.Orders;
+using EnterpriseTracker.Droid.Utility;
 using EnterpriseTracker.Droid.Views.Common;
+using FFImageLoading;
+using FFImageLoading.Views;
 using MvvmCross.Platforms.Android.Binding.Views;
 
 namespace EnterpriseTracker.Droid.Views.Orders
@@ -21,7 +29,7 @@ namespace EnterpriseTracker.Droid.Views.Orders
 
         LinearLayout _llContainer;
 
-        LinearLayout _llCategory, _llProduct, _llDateTime, _llMessgae, _llUnits;
+        LinearLayout _llCategory, _llProduct, _llDateTime, _llMessgae, _llUnits, _llPrintList, _llPhotosList;
         TextView _txtCategory, _txtProduct, _txtDateTime, _txtMessage, _txtUnits, _txtTotalValue;
         EditText _etDateTime, _etMessage, _etUnits;
         MvxSpinner _spnCategory, _spnProduct;
@@ -57,21 +65,6 @@ namespace EnterpriseTracker.Droid.Views.Orders
             {
                 ViewModel.LoadCommand.Execute(null);
                 _isFirstLoad = false;
-            }
-        }
-
-        private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if(e.PropertyName == "Categories")
-            {
-                if(ViewModel.Categories != null)
-                {
-                }
-            }
-            if (e.PropertyName == "CurrentOrder")
-            {
-                _etDateTime.Text = ViewModel.CurrentOrder.Time.ToString("ddd d MMM - hh : mm tt", CultureInfo.InvariantCulture);
-                _txtTotalValue.Text = ViewModel.CurrentOrder.TotalAmount.ToString();
             }
         }
 
@@ -132,6 +125,86 @@ namespace EnterpriseTracker.Droid.Views.Orders
             _spnCategory = FindViewById<MvxSpinner>(Resource.Id.spnCategory);
             _spnProduct = FindViewById<MvxSpinner>(Resource.Id.spnProduct);
             _txtTotalValue = FindViewById<TextView>(Resource.Id.txtTotalValue);
+
+            _llPhotosList = FindViewById<LinearLayout>(Resource.Id.llPhotosList);
+            _llPrintList = FindViewById<LinearLayout>(Resource.Id.llPrintList);
+        }
+
+        private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Categories")
+            {
+                if (ViewModel.Categories != null)
+                {
+                }
+            }
+            if (e.PropertyName == "CurrentOrder")
+            {
+                _etDateTime.Text = ViewModel.CurrentOrder.Time.ToString("ddd d MMM - hh : mm tt", CultureInfo.InvariantCulture);
+                _txtTotalValue.Text = ViewModel.CurrentOrder.TotalAmount.ToString();
+            }
+            if (e.PropertyName == "Print")
+            {
+                if (ViewModel.Print != null)
+                {
+                    var bmp = BitmapFactory.DecodeFile(ViewModel.Print.Media.Url);
+                    var dimens = AndroidHelper.GetScreenDimens(this, false);
+                    var resizedBmp = AndroidHelper.GetResizedBitmap(bmp, dimens[0], 0);
+                    var ivPrint = new ImageView(this)
+                    {
+                        LayoutParameters = new LinearLayout.LayoutParams(resizedBmp.Width, resizedBmp.Height)
+                        {
+                            Gravity = GravityFlags.Center
+                        }
+                    };
+                    ivPrint.Click += IvPrint_Click;
+                    ivPrint.SetImageBitmap(resizedBmp);
+                    _llPrintList.RemoveAllViews();
+                    _llPrintList.AddView(ivPrint);
+                }
+            }
+            if (e.PropertyName == "Photos")
+            {
+                if (ViewModel.Photos?.Count > 0)
+                {
+                    _llPhotosList.RemoveAllViews();
+                    foreach (var photo in ViewModel.Photos)
+                    {
+                        var bmp = BitmapFactory.DecodeFile(photo.Url);
+                        var dimens = AndroidHelper.GetScreenDimens(this, false);
+                        var resizedBmp = AndroidHelper.GetResizedBitmap(bmp, dimens[0], 0);
+                        var ivParams = new LinearLayout.LayoutParams(resizedBmp.Width, resizedBmp.Height)
+                        {
+                            Gravity = GravityFlags.Center,
+                        };
+                        ivParams.SetMargins(0, 0, 0, AndroidHelper.ConvertDpToPx(5));
+                        var ivMedia = new ImageView(this)
+                        {
+                            LayoutParameters = ivParams,
+                            Tag = photo.Url
+                        };
+                        ivMedia.Click += IvMedia_Click;
+                        ivMedia.SetImageBitmap(resizedBmp);
+                        _llPhotosList.AddView(ivMedia);
+                    }
+                }
+            }
+        }
+
+        private void IvMedia_Click(object sender, EventArgs e)
+        {
+            var iv = sender as ImageView;
+            if(iv != null)
+            {
+                var path = iv.Tag.ToString();
+                if(!string.IsNullOrEmpty(path))
+                    ViewModel.FullScreenCommand.Execute(path);
+            }
+        }
+
+        private void IvPrint_Click(object sender, EventArgs e)
+        {
+            ViewModel.FullScreenCommand.Execute(ViewModel.Print.Media.Url);
         }
     }
 }

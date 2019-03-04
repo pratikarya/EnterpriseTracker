@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-
+using System.Threading;
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V4.Content;
+using Android.Util;
 using Android.Views;
 using Android.Widget;
 using EnterpriseTracker.Droid.Controls;
@@ -43,5 +46,61 @@ namespace EnterpriseTracker.Droid.Utility
         }
 
         public static ITheme CurrentTheme { get; set; }
+
+        public static int[] GetScreenDimens(Activity activity, bool shouldReturnPixels = false)
+        {
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            activity.WindowManager.DefaultDisplay.GetMetrics(displayMetrics);
+            int height = shouldReturnPixels ? displayMetrics.HeightPixels : ConvertPxToDp(displayMetrics.HeightPixels);
+            int width = shouldReturnPixels ? displayMetrics.WidthPixels : ConvertPxToDp(displayMetrics.WidthPixels);
+            return new[] { width, height };
+        }
+
+        private static Task<Stream> GetStreamFromImageByte(CancellationToken arg)
+        {
+            //TODO handle bmp. This method is not currently used.
+            Bitmap bmp = null;
+            //var bmp = BitmapFactory.DecodeFile(ViewModel.Print.Media.Url);
+            MemoryStream stream = new MemoryStream();
+            bmp.Compress(Bitmap.CompressFormat.Jpeg, 100, stream);
+            byte[] imageInBytes = stream.ToArray();
+
+            //Since we need to return a Task<Stream> we will use a TaskCompletionSource>
+            TaskCompletionSource<Stream> tcs = new TaskCompletionSource<Stream>();
+
+            tcs.TrySetResult(new MemoryStream(imageInBytes));
+
+            return tcs.Task;
+        }
+
+        public static Bitmap GetResizedBitmap(Bitmap bmp, float newWidth, float newHeight)
+        {
+            float width = bmp.Width;
+            float height = bmp.Height;
+
+            float aspectRatio = width / height;
+            if(newWidth == 0)
+            {
+                //Cal width, keep height
+                newWidth = newHeight * aspectRatio;
+            }
+            else if(newHeight == 0)
+            {
+                //Cal height, keep width
+                newHeight = newWidth / aspectRatio;
+            }
+            else
+            {
+                //By default, scale the image based on width. Thus, only change the height
+                newHeight = newWidth / aspectRatio;
+            }
+
+            Bitmap resizedBitmap = Bitmap.CreateScaledBitmap(bmp, (int)newWidth, (int)newHeight, false);
+            if (bmp != resizedBitmap)
+            {
+                bmp.Recycle();
+            }
+            return resizedBitmap;
+        }
     }
 }

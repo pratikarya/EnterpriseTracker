@@ -3,7 +3,9 @@ using EnterpriseTracker.Core.Common.Contract.Dto;
 using EnterpriseTracker.Core.RealmObjects;
 using EnterpriseTracker.Core.UI;
 using EnterpriseTracker.Core.ViewModels.Common;
+using MvvmCross;
 using MvvmCross.Commands;
+using MvvmCross.Logging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -121,7 +123,7 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
         {
             Task.Run(() =>
             {
-                UIService.ShowDialog(true);
+                UIService.ShowLoadingDialog(true);
                 try
                 {
                     var searchDto = new OrdersSearchDto
@@ -136,9 +138,9 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
                 }
                 catch (Exception ex)
                 {
-
+                    Mvx.IoCProvider.Resolve<IMvxLog>().Trace(ex, "", null);
                 }
-                UIService.ShowDialog(false);
+                UIService.ShowLoadingDialog(false);
             });
         }
 

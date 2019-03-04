@@ -1,10 +1,17 @@
 ﻿using EnterpriseTracker.Core.AppContents.Category.Contract.Dto;
+using EnterpriseTracker.Core.AppContents.Media.Contract.Dto;
 using EnterpriseTracker.Core.AppContents.Order.Contract.Dto;
 using EnterpriseTracker.Core.AppContents.Product.Contract.Dto;
 using EnterpriseTracker.Core.RealmObjects;
 using EnterpriseTracker.Core.UI;
+using EnterpriseTracker.Core.Utility;
 using EnterpriseTracker.Core.ViewModels.Common;
+using MvvmCross;
 using MvvmCross.Commands;
+using MvvmCross.Logging;
+using Plugin.Media;
+using Plugin.Media.Abstractions;
+using Plugin.Permissions.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -139,7 +146,29 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
                 RaisePropertyChanged(() => StatusList);
             }
         }
-        
+
+        private List<MediaDto> _photos;
+        public List<MediaDto> Photos
+        {
+            get { return _photos; }
+            set
+            {
+                _photos = value;
+                RaisePropertyChanged(() => Photos);
+            }
+        }
+
+        private PrintDto _print;
+        public PrintDto Print
+        {
+            get { return _print; }
+            set
+            {
+                _print = value;
+                RaisePropertyChanged(() => Print);
+            }
+        }        
+
         private OrderStatus _selectedStatus;
         public OrderStatus SelectedStatus
         {
@@ -165,11 +194,15 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
         {
             Task.Run(() =>
             {
-                UIService.ShowDialog(true);
+                UIService.ShowLoadingDialog(true);
                 try
                 {
                     CurrentOrder.Product = SelectedProduct;
                     CurrentOrder.Status = SelectedStatus;
+                    if (Print != null)
+                        CurrentOrder.Print = Print;
+                    if (Photos != null)
+                        CurrentOrder.MediaList = Photos;
 
                     //TODO : Proper order adding validations. For example id check, quantity check, product check, message check, etc.
                     if (ValidateOrder())
@@ -190,9 +223,9 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
                 }
                 catch (Exception ex)
                 {
-
+                    Mvx.IoCProvider.Resolve<IMvxLog>().Trace(ex, "", null);
                 }
-                UIService.ShowDialog(false);
+                UIService.ShowLoadingDialog(false);
             });
         }
 
@@ -212,6 +245,141 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
 
             return isValid;
         }
+        
+        private MvxCommand<string> _fullScreenImageCommand;
+        public ICommand FullScreenCommand
+        {
+            get
+            {
+                _fullScreenImageCommand = _fullScreenImageCommand ?? new MvxCommand<string>(DoFullScreenImageCommand);
+                return _fullScreenImageCommand;
+            }
+        }
+
+        private void DoFullScreenImageCommand(string imagePath)
+        {
+            DoFullScreenImage(imagePath);
+        }
+
+        private async void DoFullScreenImage(string imagePath)
+        {
+            if (imagePath == null)
+                return;
+            await NavigationService.Navigate<FullScreenImageViewModel, string>(imagePath);
+        }
+
+        private MvxCommand _addPrintCommand;
+        public ICommand AddPrintCommand
+        {
+            get
+            {
+                _addPrintCommand = _addPrintCommand ?? new MvxCommand(DoAddPrintCommand);
+                return _addPrintCommand;
+            }
+        }
+
+        private void DoAddPrintCommand()
+        {
+            Task.Run(async() =>
+            {
+                UIService.ShowLoadingDialog(true);
+                try
+                {
+                    if(CrossMedia.IsSupported && CrossMedia.Current.IsPickPhotoSupported)
+                    {
+                        if(!await Helper.HasPermission(Permission.Storage) || !await Helper.HasPermission(Permission.MediaLibrary))
+                        {
+                            //TODO Show permission denied alert
+                            return;
+                        }
+                        var media = await CrossMedia.Current.PickPhotoAsync();
+                        if(media != null)
+                        {
+                            var bytes = Helper.GetBytesFromStream(media.GetStream());
+                            if(Print == null)
+                            {
+                                Print = new PrintDto
+                                {
+                                    Media = new MediaDto
+                                    {
+                                        Bytes = bytes,
+                                        Url = media.Path
+                                    }
+                                };
+                            }
+                            else
+                            {
+                                Print.Media.Bytes = bytes;
+                                Print.Media.Url = media.Path;
+                                RaisePropertyChanged(() => Print);
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Mvx.IoCProvider.Resolve<IMvxLog>().Trace(ex, "", null);
+                }
+                UIService.ShowLoadingDialog(false);
+            });
+        }
+
+        private MvxCommand _addPhotoCommand;
+        public ICommand AddPhotoCommand
+        {
+            get
+            {
+                _addPhotoCommand = _addPhotoCommand ?? new MvxCommand(DoAddPhotoCommand);
+                return _addPhotoCommand;
+            }
+        }
+
+        private void DoAddPhotoCommand()
+        {
+            Task.Run(async() =>
+            {
+                try
+                {
+                    if (CrossMedia.IsSupported && CrossMedia.Current.IsPickPhotoSupported)
+                    {
+                        if (!await Helper.HasPermission(Permission.Storage) || !await Helper.HasPermission(Permission.MediaLibrary))
+                        {
+                            //TODO Show permission denied alert
+                            return;
+                        }
+                        var media = await CrossMedia.Current.PickPhotoAsync(new PickMediaOptions { CompressionQuality = 90});
+                        if (media != null)
+                        {
+                            var bytes = Helper.GetBytesFromStream(media.GetStream());
+                            if (Photos == null)
+                            {
+                                Photos = new List<MediaDto>
+                                {
+                                    new MediaDto
+                                    {
+                                        Bytes = bytes,
+                                        Url = media.Path
+                                    }
+                                };
+                            }
+                            else
+                            {
+                                Photos.Add(new MediaDto
+                                {
+                                    Bytes = bytes,
+                                    Url = media.Path
+                                });
+                                RaisePropertyChanged(() => Photos);
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Mvx.IoCProvider.Resolve<IMvxLog>().Trace(ex, "", null);
+                }
+            });
+        }
 
         private MvxCommand _loadCommand;
         public ICommand LoadCommand
@@ -227,7 +395,7 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
         {
             Task.Run(() =>
             {
-                UIService.ShowDialog(true);
+                UIService.ShowLoadingDialog(true);
                 try
                 {
                     var res = RealmService.GetCategories();
@@ -240,9 +408,9 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
                 }
                 catch (Exception ex)
                 {
-
+                    Mvx.IoCProvider.Resolve<IMvxLog>().Trace(ex, "", null);
                 }
-                UIService.ShowDialog(false);
+                UIService.ShowLoadingDialog(false);
             });
         }
 
@@ -283,6 +451,8 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
                 SelectedCategory = Categories.First();
                 SelectedProduct = Products.First();
                 SelectedStatus = StatusList.First();
+                Print = CurrentOrder.Print;
+                Photos = CurrentOrder.MediaList;
             }
             RaisePropertyChanged(() => CurrentOrder);
         }

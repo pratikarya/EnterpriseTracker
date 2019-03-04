@@ -12,5 +12,6 @@ namespace EnterpriseTracker.Core.RealmObjects.Media.Contract.Dto
         public MediaRealmDto Media { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
+        public int PrintShape { get; set; }
     }
 }

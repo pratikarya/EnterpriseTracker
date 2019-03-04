@@ -3,7 +3,9 @@ using EnterpriseTracker.Core.Common.Contract.Dto;
 using EnterpriseTracker.Core.RealmObjects;
 using EnterpriseTracker.Core.UI;
 using EnterpriseTracker.Core.ViewModels.Common;
+using MvvmCross;
 using MvvmCross.Commands;
+using MvvmCross.Logging;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -69,7 +71,7 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
             }
             catch(Exception ex)
             {
-
+                Mvx.IoCProvider.Resolve<IMvxLog>().Trace(ex, "", null);
             }
         }
     }

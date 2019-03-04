@@ -10,7 +10,7 @@ namespace EnterpriseTracker.Droid.UI
 {
     public class UIService : IUIService
     {
-        public void ShowDialog(bool isVisible, string message)
+        public void ShowLoadingDialog(bool isVisible, string message)
         {
             if(isVisible)
             {

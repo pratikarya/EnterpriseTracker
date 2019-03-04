@@ -4,7 +4,7 @@ namespace EnterpriseTracker.Core.UI
 {
     public interface IUIService
     {
-        void ShowDialog(bool isVisible, string message = "Please wait!");
+        void ShowLoadingDialog(bool isVisible, string message = "Please wait!");
 
         void ShowSuccessDialog(string message = "");
 

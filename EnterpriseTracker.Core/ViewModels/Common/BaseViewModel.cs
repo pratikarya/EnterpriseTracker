@@ -48,6 +48,18 @@ namespace EnterpriseTracker.Core.ViewModels.Common
         }
     }
 
+    public abstract class BaseViewModel<TParam> : BaseViewModel, IMvxViewModel<TParam>
+    {
+        public TaskCompletionSource<object> CloseCompletionSource { get; set; }
+
+        public void Prepare(TParam parameter)
+        {
+            PrepareImpl(parameter);
+        }
+
+        public abstract void PrepareImpl(TParam param);
+    }
+
     public abstract class BaseViewModel<TParam, TRes> : BaseViewModel, IMvxViewModel<TParam, TRes>
     {
         public TaskCompletionSource<object> CloseCompletionSource { get; set; }

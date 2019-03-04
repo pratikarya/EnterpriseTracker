@@ -1,7 +1,9 @@
 ﻿using EnterpriseTracker.Core.AppContents.Category.Contract.Dto;
+using EnterpriseTracker.Core.AppContents.Media.Contract.Dto;
 using EnterpriseTracker.Core.AppContents.Order.Contract.Dto;
 using EnterpriseTracker.Core.AppContents.Product.Contract.Dto;
 using EnterpriseTracker.Core.RealmObjects.Category.Contract.Dto;
+using EnterpriseTracker.Core.RealmObjects.Media.Contract.Dto;
 using EnterpriseTracker.Core.RealmObjects.Order.Contract.Dto;
 using EnterpriseTracker.Core.RealmObjects.Product.Contract.Dto;
 using EnterpriseTracker.Core.RealmObjects.User.Contract.Dto;
@@ -45,6 +47,16 @@ namespace EnterpriseTracker.Core.RealmObjects
             order.CarryBag = realmOrder.CarryBag;
             order.Extra = realmOrder.Extra;
             order.ContactNumber = realmOrder.ContactNumber;
+            if(realmOrder.Print != null)
+                order.Print = ConvertToDto(realmOrder.Print);
+            if(realmOrder.MediaList?.Count > 0)
+            {
+                order.MediaList = new List<MediaDto> { };
+                foreach(var realmMedia in realmOrder.MediaList)
+                {
+                    order.MediaList.Add(ConvertToDto(realmMedia));
+                }
+            }
             //order.Owner = ConvertToDto(realmOrder.Owner);
             //order.Customer = ConvertToDto(realmOrder.Customer);
             order.Product = ConvertToDto(realmOrder.Product);
@@ -89,6 +101,27 @@ namespace EnterpriseTracker.Core.RealmObjects
                 category.Products.Add(product);
             }
             return category;
+        }
+
+        public MediaDto ConvertToDto(MediaRealmDto realmMedia)
+        {
+            var media = new MediaDto();
+            media.Id = Guid.Parse(realmMedia.Id);
+            media.Bytes = realmMedia.Bytes;
+            media.Type = (MediaType)realmMedia.Type;
+            media.Url = realmMedia.Url;
+            return media;
+        }
+
+        public PrintDto ConvertToDto(PrintRealmDto realmPrint)
+        {
+            var print = new PrintDto();
+            print.Id = Guid.Parse(realmPrint.Id);
+            print.PrintShape = (PrintShape) realmPrint.PrintShape;
+            print.Height = realmPrint.Height;
+            print.Width = realmPrint.Width;
+            print.Media = ConvertToDto(realmPrint.Media);
+            return print;
         }
     }
 }

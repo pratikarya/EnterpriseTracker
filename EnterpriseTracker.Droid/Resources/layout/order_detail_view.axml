@@ -327,7 +327,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:visibility="gone"
         android:layout_marginBottom="5dp">
 
         <TextView
@@ -378,6 +377,88 @@
           android:text="Extra"
           local:MvxBind="Checked CurrentOrder.Extra" />
         
+      </LinearLayout>
+
+      <LinearLayout
+        android:id="@+id/llPrint"
+        android:orientation="vertical"        
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+          android:id="@+id/llAddPrint"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:gravity="center"
+          android:layout_marginBottom="5dp">
+
+          <TextView
+            android:id="@+id/txtPrint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:layout_marginRight="5dp"
+            android:textSize="16dp"
+            android:text="Add print"
+            android:textColor="@color/highlightColor"/>
+
+          <ImageButton
+            android:id="@+id/btnAddPrint"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_margin="5dp"
+            android:src="@drawable/ic_image"
+            local:MvxBind="Click AddPrintCommand;"/>
+
+        </LinearLayout>
+        
+        <LinearLayout
+          android:id="@+id/llPrintList"
+          android:orientation="vertical"        
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"/>
+      
+      </LinearLayout>
+      
+      <LinearLayout
+        android:id="@+id/llPhotos"
+        android:orientation="vertical"        
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+          android:id="@+id/llAddPhoto"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:gravity="center"
+          android:layout_marginBottom="5dp">
+
+          <TextView
+            android:id="@+id/txtPhoto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:layout_marginRight="5dp"
+            android:textSize="16dp"
+            android:text="Add photo"
+            android:textColor="@color/highlightColor"/>
+
+          <ImageButton
+            android:id="@+id/btnAddPhoto"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_margin="5dp"
+            android:src="@drawable/ic_image"
+            local:MvxBind="Click AddPhotoCommand;"/>
+
+        </LinearLayout>
+        
+        <LinearLayout
+          android:id="@+id/llPhotosList"
+          android:orientation="vertical"        
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"/>
+      
       </LinearLayout>
       
     </LinearLayout>

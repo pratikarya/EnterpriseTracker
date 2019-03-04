@@ -9,7 +9,7 @@
                 return Status == ResultStatus.Ok;
             }
         }
-
+        public string ErrorMessage { get; set; }
         public ResultStatus Status { get; set; }
     }
 

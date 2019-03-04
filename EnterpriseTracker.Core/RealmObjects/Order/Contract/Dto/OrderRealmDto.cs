@@ -31,7 +31,7 @@ namespace EnterpriseTracker.Core.RealmObjects.Order.Contract.Dto
         public DateTimeOffset CreatedDate { get; set; }
         public DateTimeOffset ModifiedDate { get; set; }
         public int Status { get; set; }
-        public IList<MediaRealmDto> MediaList;
+        public IList<MediaRealmDto> MediaList { get; }
         public PrintRealmDto Print { get; set; }
         public float TotalAmount
         {
