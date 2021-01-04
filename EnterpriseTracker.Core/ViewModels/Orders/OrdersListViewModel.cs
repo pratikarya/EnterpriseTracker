@@ -15,13 +15,11 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
 {
     public class OrdersListViewModel : BaseViewModel
     {
-        public IRealmService RealmService { get; set; }
-        public IUIService UIService { get; set; }
-
-        public OrdersListViewModel(IRealmService realmService, IUIService uiService)
+        public OrdersListViewModel()
         {
-            RealmService = realmService;
-            UIService = uiService;
+            Title = "Orders";
+            SelectedDate = DateTime.Today;
+            SpeechService.OnSpeechRecognized += SpeechService_OnSpeechRecognized;
         }
 
         private List<OrderDto> _orders = new List<OrderDto>();
@@ -35,8 +33,8 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
             }
         }
 
-        private DateTime? _selectedDate;
-        public DateTime? SelectedDate
+        private DateTime _selectedDate;
+        public DateTime SelectedDate
         {
             get { return _selectedDate; }
             set
@@ -44,6 +42,16 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
                 _selectedDate = value;
                 LoadOrdersCommand.Execute(null);
                 RaisePropertyChanged(() => SelectedDate);
+                RaisePropertyChanged(() => SelectedDateText);
+            }
+        }
+
+        public string SelectedDateText
+        {
+            get
+            {
+                var date = SelectedDate.ToString("dddd, dd MMMM yyyy");
+                return date;
             }
         }
 
@@ -84,7 +92,22 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
                 LoadOrdersCommand.Execute(null);
             }
         }
-        
+
+        private MvxCommand _recordOrderCommand;
+        public ICommand RecordOrderCommand
+        {
+            get
+            {
+                _recordOrderCommand = _recordOrderCommand ?? new MvxCommand(DoRecord);
+                return _recordOrderCommand;
+            }
+        }
+
+        private async void DoRecord()
+        {
+            SpeechService.StartRecording();
+        }
+
         private MvxCommand<OrderDto> _longClickCommand;
         public ICommand LongClickCommand
         {
@@ -123,7 +146,7 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
         {
             Task.Run(() =>
             {
-                UIService.ShowLoadingDialog(true);
+                //UIService.ShowLoadingDialog(true);
                 try
                 {
                     var searchDto = new OrdersSearchDto
@@ -140,7 +163,7 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
                 {
                     Mvx.IoCProvider.Resolve<IMvxLog>().Trace(ex, "", null);
                 }
-                UIService.ShowLoadingDialog(false);
+                //UIService.ShowLoadingDialog(false);
             });
         }
 
@@ -166,6 +189,17 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
                     IsRefreshing = false;
                 });
             }
+        }
+
+        public override void DisposeImpl()
+        {
+            base.DisposeImpl();
+            SpeechService.OnSpeechRecognized -= SpeechService_OnSpeechRecognized;
+        }
+
+        private void SpeechService_OnSpeechRecognized(string input)
+        {
+            TextProcessor.ConvertTextToOrder(input);
         }
     }
 }

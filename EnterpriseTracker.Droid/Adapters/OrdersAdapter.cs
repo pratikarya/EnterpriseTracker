@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Android.Views;
 
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Support.V7.Widget;
-using Android.Views;
-using Android.Widget;
+using AndroidX.RecyclerView.Widget;
+
 using EnterpriseTracker.Core.AppContents.Order.Contract.Dto;
 using EnterpriseTracker.Droid.ViewHolders;
-using MvvmCross.Droid.Support.V7.RecyclerView;
+
+using MvvmCross.DroidX.RecyclerView;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 
 namespace EnterpriseTracker.Droid.Adapters
@@ -28,11 +21,10 @@ namespace EnterpriseTracker.Droid.Adapters
         {
             var itemBindingContext = new MvxAndroidBindingContext(parent.Context, BindingContext.LayoutInflaterHolder);
             var view = InflateViewForHolder(parent, viewType, itemBindingContext);
-            return new OrderViewHolder(view, itemBindingContext)
+            var vh = new OrderViewHolder(view, itemBindingContext)
             {
-                Click = ItemClick,
-                LongClick = ItemLongClick
             };
+            return vh;
         }
 
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)

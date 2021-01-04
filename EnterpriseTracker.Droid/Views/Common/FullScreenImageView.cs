@@ -1,7 +1,9 @@
 ﻿using Android.App;
 using Android.OS;
+
 using EnterpriseTracker.Core.ViewModels.Common;
-using UK.CO.Senab.Photoview;
+
+using ImageViews.Photo;
 
 namespace EnterpriseTracker.Droid.Views.Common
 {

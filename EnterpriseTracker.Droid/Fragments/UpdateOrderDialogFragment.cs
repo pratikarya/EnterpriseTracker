@@ -46,7 +46,7 @@ namespace EnterpriseTracker.Droid.Fragments
             var widthInDp = AndroidHelper.ConvertPxToDp(metrics.WidthPixels) / 2;
             var heightInDp = AndroidHelper.ConvertPxToDp(metrics.HeightPixels) / 2;
             if (Dialog != null)
-                Dialog.Window.SetLayout(metrics.WidthPixels - 20, metrics.HeightPixels/2);
+                Dialog.Window.SetLayout(metrics.WidthPixels - 20, metrics.HeightPixels/2 + 20);
         }
 
         private void BtnDone_Click(object sender, EventArgs e)

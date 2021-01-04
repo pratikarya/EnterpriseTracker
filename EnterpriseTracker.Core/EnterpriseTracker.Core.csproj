@@ -2,14 +2,26 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
+  <PropertyGroup>
+	<SolutionDir>..\</SolutionDir>
+</PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="MvvmCross" Version="6.2.0" />
-    <PackageReference Include="MvvmCross.Plugin.Json" Version="6.2.0" />
-    <PackageReference Include="MvvmCross.Plugin.Messenger" Version="6.2.0" />
-    <PackageReference Include="Realm" Version="3.3.0" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.6.0" />
+    <PackageReference Include="MvvmCross" Version="7.1.2" />
+    <PackageReference Include="MvvmCross.Plugin.Json" Version="7.1.2" />
+    <PackageReference Include="MvvmCross.Plugin.Messenger" Version="7.1.2" />
+    <PackageReference Include="Realm" Version="5.1.2" />
+    <PackageReference Include="Realm.Fody" Version="5.1.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Xam.Plugin.Media" Version="4.0.1.5" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.5.3.2" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="FodyWeavers.xsd" />
   </ItemGroup>
 </Project>

@@ -1,356 +1,180 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:local="http://schemas.android.com/apk/res-auto"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
-  android:id="@+id/llMain"
-  android:orientation="vertical"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-  android:focusable="true"
-  android:focusableInTouchMode="true"
-  android:background="@color/textColorWhite">
-
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:local="http://schemas.android.com/apk/res-auto"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical">
+  
   <include
-    android:id="@+id/toolbar"
-    layout="@layout/toolbar" />
+      android:id="@+id/toolbar"
+      layout="@layout/toolbar" />
 
   <ScrollView
-    android:id="@+id/svContainer"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_weight="1">
-
-    <LinearLayout
-      android:id="@+id/llContainer"
-      android:orientation="vertical"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:padding="5dp">
-      
-      <!--<com.syncfusion.sfpicker.SfPicker
-          android:id="@+id/sfPickerCategories"
-          android:layout_width="match_parent"
-          android:layout_height="100dp" 
-          local:MvxBind="ItemsSource Categories; SelectedItem SelectedCategory"/>-->
+      android:layout_weight="1">
 
-      <LinearLayout
-        android:id="@+id/llCategory"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="20dp">
+
+      <MvvmCross.Platforms.Android.Binding.Views.MvxSpinner
+        android:id="@+id/spnCategory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginBottom="5dp">
+        android:textSize="14dp"
+        android:layout_marginBottom="10dp"
+        android:background="@null"
+        local:MvxItemTemplate="@layout/spinner_background"
+        local:MvxBind="ItemsSource Categories ; SelectedItem SelectedCategory" />
 
-        <TextView
-          android:id="@+id/txtCategory"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_weight="2"
-          android:layout_marginRight="5dp"
-          android:textSize="16dp"
-          android:text="Category"
-          android:textColor="@color/highlightColor"/>
-
-        <mvvmcross.platforms.android.binding.views.MvxSpinner
-          android:id="@+id/spnCategory"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          local:MvxItemTemplate="@layout/spn_item_template"
-          local:MvxBind="ItemsSource Categories; SelectedItem SelectedCategory"/>
-
-      </LinearLayout>  
-
-      <LinearLayout
-        android:id="@+id/llProduct"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginBottom="5dp">
-
-        <TextView
-          android:id="@+id/txtProduct"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_weight="2"
-          android:layout_marginRight="5dp"
-          android:textSize="16dp"
-          android:text="Product"
-          android:textColor="@color/highlightColor"/>
-
-        <mvvmcross.platforms.android.binding.views.MvxSpinner
+      <MvvmCross.Platforms.Android.Binding.Views.MvxSpinner
           android:id="@+id/spnProduct"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_weight="1"
-          local:MvxItemTemplate="@layout/spn_item_template"
-          local:MvxBind="ItemsSource Products; SelectedItem SelectedProduct"/>
+          android:textSize="14dp"
+          android:layout_marginBottom="10dp"
+          android:background="@null"
+          local:MvxItemTemplate="@layout/spinner_background"
+          local:MvxBind="ItemsSource Products ; SelectedItem SelectedProduct" />
 
-      </LinearLayout>
-
-      <LinearLayout
-        android:id="@+id/llStatus"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginBottom="5dp">
-
-        <TextView
-          android:id="@+id/txtStatus"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_weight="2"
-          android:layout_marginRight="5dp"
-          android:textSize="16dp"
-          android:text="Status"
-          android:textColor="@color/highlightColor"/>
-
-        <mvvmcross.platforms.android.binding.views.MvxSpinner
+      <MvvmCross.Platforms.Android.Binding.Views.MvxSpinner
           android:id="@+id/spnStatus"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_weight="1"
-          local:MvxItemTemplate="@layout/spn_item_template"
-          local:MvxBind="ItemsSource StatusList; SelectedItem SelectedStatus"/>
-
-      </LinearLayout>
-
-      <LinearLayout
-        android:id="@+id/llDateTime"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginBottom="5dp">
-
-        <TextView
-          android:id="@+id/txtDateTime"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_weight="2"
-          android:layout_marginRight="5dp"
-          android:textSize="16dp"
-          android:text="Date and Time"
-          android:textColor="@color/highlightColor"/>
-
-        <Edittext
-          android:id="@+id/etDateTime"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
           android:textSize="14dp"
-          android:textColor="@color/textColor"
-          android:hint="Date and Time"/>/>
+          android:layout_marginBottom="10dp"
+          android:background="@null"
+          local:MvxItemTemplate="@layout/spinner_background"
+          local:MvxBind="ItemsSource StatusList ; SelectedItem SelectedStatus" />
 
-      </LinearLayout>
-
-      <LinearLayout
-        android:id="@+id/llUnits"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginBottom="5dp">
-
-        <TextView
-          android:id="@+id/txtUnits"
+      <android.support.design.widget.TextInputLayout
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_weight="2"
-          android:layout_marginRight="5dp"
-          android:textSize="16dp"
-          android:text="Units"
-          android:textColor="@color/highlightColor"/>
+          style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/etDateTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:layout_marginBottom="10dp"
+            android:hint="Date and Time"
+            android:textColor="@color/textColor"/>
+      </android.support.design.widget.TextInputLayout>
 
-        <Edittext
-          android:id="@+id/etUnits"
+      <android.support.design.widget.TextInputLayout
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:textSize="14dp"
-          android:textColor="@color/textColor"
-          android:inputType="numberDecimal"
-          android:hint="Units"
-          local:MvxBind="Text CurrentOrder.Units"/>
+          style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/etUnits"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:inputType="numberDecimal"
+            android:layout_marginBottom="10dp"
+            android:hint="Units"
+            android:textColor="@color/textColor"
+            local:MvxBind="Text CurrentOrder.Units"/>
+      </android.support.design.widget.TextInputLayout>
 
-      </LinearLayout>
-      
-      <LinearLayout
-        android:id="@+id/llMessage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginBottom="5dp">
-
-        <TextView
-          android:id="@+id/txtMessage"
+      <android.support.design.widget.TextInputLayout
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_weight="2"
-          android:layout_marginRight="5dp"
-          android:textSize="16dp"
-          android:text="Message"
-          android:textColor="@color/highlightColor"/>
+          style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/etMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:layout_marginBottom="10dp"
+            android:hint="Message"
+            android:textColor="@color/textColor"
+            local:MvxBind="Text CurrentOrder.Message"/>
+      </android.support.design.widget.TextInputLayout>
 
-        <Edittext
-          android:id="@+id/etMessage"
+      <android.support.design.widget.TextInputLayout
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:textSize="14dp"
-          android:textColor="@color/textColor"
-          android:hint="Message"
-          local:MvxBind="Text CurrentOrder.Message"/>
+          style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/etContactNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:inputType="number"
+            android:layout_marginBottom="10dp"
+            android:hint="Contact number"
+            android:textColor="@color/textColor"
+            local:MvxBind="Text CurrentOrder.ContactNumber"/>
+      </android.support.design.widget.TextInputLayout>
 
-      </LinearLayout>
-
-      <LinearLayout
-        android:id="@+id/llContactInfo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginBottom="5dp">
-
-        <TextView
-          android:id="@+id/txtContactNumber"
+      <android.support.design.widget.TextInputLayout
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_weight="2"
-          android:layout_marginRight="5dp"
-          android:textSize="16dp"
-          android:text="Contact Number"
-          android:textColor="@color/highlightColor"/>
+          style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/etDetails"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:textSize="14dp"
+            android:layout_marginBottom="10dp"
+            android:hint="Details"
+            android:textColor="@color/textColor"
+            local:MvxBind="Text CurrentOrder.Details"/>
+      </android.support.design.widget.TextInputLayout>
 
-        <Edittext
-          android:id="@+id/etContactNumber"
+      <android.support.design.widget.TextInputLayout
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:textSize="14dp"
-          android:inputType="numberDecimal"
-          android:textColor="@color/textColor"
-          android:hint="Contact Number"
-          local:MvxBind="Text CurrentOrder.ContactNumber"/>
+          style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/etAdvanceAmount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:inputType="number"
+            android:layout_marginBottom="10dp"
+            android:hint="Advance"
+            android:textColor="@color/textColor"
+            local:MvxBind="Text CurrentOrder.AdvanceAmount"/>
+      </android.support.design.widget.TextInputLayout>
 
-      </LinearLayout>
-      
-      <LinearLayout
-        android:id="@+id/llDetails"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginBottom="5dp">
-
-        <TextView
-          android:id="@+id/txtDetails"
+      <android.support.design.widget.TextInputLayout
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_weight="2"
-          android:layout_marginRight="5dp"
-          android:textSize="16dp"
-          android:text="Details"
-          android:textColor="@color/highlightColor"/>
+          style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/etDesignCharge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:inputType="number"
+            android:layout_marginBottom="10dp"
+            android:hint="Design Charge"
+            android:textColor="@color/textColor"
+            local:MvxBind="Text CurrentOrder.DesignCharge"/>
+      </android.support.design.widget.TextInputLayout>
 
-        <Edittext
-          android:id="@+id/etDetails"
+      <android.support.design.widget.TextInputLayout
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:textSize="14dp"
-          android:textColor="@color/textColor"
-          android:hint="Details"
-          android:scrollbars="vertical"
-          local:MvxBind="Text CurrentOrder.Details"/>
-
-      </LinearLayout>
-      
-      <LinearLayout
-        android:id="@+id/llAdvanceAmount"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginBottom="5dp">
-
-        <TextView
-          android:id="@+id/txtAdvance"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_weight="2"
-          android:layout_marginRight="5dp"
-          android:textSize="16dp"
-          android:text="Advance amount"
-          android:textColor="@color/highlightColor"/>
-
-        <Edittext
-          android:id="@+id/etAdvance"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:textSize="14dp"
-          android:inputType="numberDecimal"
-          android:textColor="@color/textColor"
-          android:hint="Advance"
-          local:MvxBind="Text CurrentOrder.AdvanceAmount"/>
-
-      </LinearLayout>
-      
-      <LinearLayout
-        android:id="@+id/llDesignCharge"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginBottom="5dp">
-
-        <TextView
-          android:id="@+id/txtDesignCharge"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_weight="2"
-          android:layout_marginRight="5dp"
-          android:textSize="16dp"
-          android:text="Design charge"
-          android:textColor="@color/highlightColor"/>
-
-        <Edittext
-          android:id="@+id/etDesinCharge"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:textSize="14dp"
-          android:inputType="numberDecimal"
-          android:textColor="@color/textColor"
-          android:hint="Design charge"
-          local:MvxBind="Text CurrentOrder.DesignCharge"/>
-
-      </LinearLayout>
-
-      <LinearLayout
-        android:id="@+id/llExtraCharge"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginBottom="5dp">
-
-        <TextView
-          android:id="@+id/txtExtraCharge"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_weight="2"
-          android:layout_marginRight="5dp"
-          android:textSize="16dp"
-          android:text="Extra charge"
-          android:textColor="@color/highlightColor"/>
-
-        <Edittext
-          android:id="@+id/etExtraCharge"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:textSize="14dp"
-          android:inputType="numberDecimal"
-          android:textColor="@color/textColor"
-          android:hint="Extra charge"
-          local:MvxBind="Text CurrentOrder.ExtraCharge"/>
-
-      </LinearLayout>
+          style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/etExtraCharge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:inputType="number"
+            android:layout_marginBottom="10dp"
+            android:hint="Extra charge"
+            android:textColor="@color/textColor"
+            local:MvxBind="Text CurrentOrder.ExtraCharge"/>
+      </android.support.design.widget.TextInputLayout>
 
       <LinearLayout
         android:layout_width="match_parent"
@@ -376,12 +200,12 @@
           android:layout_height="wrap_content"
           android:text="Extra"
           local:MvxBind="Checked CurrentOrder.Extra" />
-        
+
       </LinearLayout>
 
       <LinearLayout
         android:id="@+id/llPrint"
-        android:orientation="vertical"        
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -411,18 +235,18 @@
             local:MvxBind="Click AddPrintCommand;"/>
 
         </LinearLayout>
-        
+
         <LinearLayout
           android:id="@+id/llPrintList"
-          android:orientation="vertical"        
+          android:orientation="vertical"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"/>
-      
+
       </LinearLayout>
-      
+
       <LinearLayout
         android:id="@+id/llPhotos"
-        android:orientation="vertical"        
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -452,15 +276,15 @@
             local:MvxBind="Click AddPhotoCommand;"/>
 
         </LinearLayout>
-        
+
         <LinearLayout
           android:id="@+id/llPhotosList"
-          android:orientation="vertical"        
+          android:orientation="vertical"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"/>
-      
+
       </LinearLayout>
-      
+
     </LinearLayout>
 
   </ScrollView>
@@ -469,6 +293,7 @@
     android:id="@+id/llTotal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
     android:layout_marginBottom="5dp"
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"
@@ -497,10 +322,15 @@
   </LinearLayout>
 
   <Button
-    android:id="@+id/btnCreate"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="5dp"
+      android:id="@+id/btnCreate"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:textAllCaps="false"
+      android:textSize="16dp"
+      android:layout_gravity="bottom"
+      android:textColor="@color/textColorWhite"
+      android:background="@color/highlightColor"
     local:MvxBind="Click CreateCommand; Text ButtonText"/>
 
 </LinearLayout>
+

@@ -1,45 +1,35 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Globalization;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
+
 using Android.App;
 using Android.Graphics;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
-using Com.Syncfusion.SfPicker;
-using EnterpriseTracker.Core.AppContents.Product.Contract.Dto;
-using EnterpriseTracker.Core.Utility;
+
 using EnterpriseTracker.Core.ViewModels.Orders;
 using EnterpriseTracker.Droid.Utility;
 using EnterpriseTracker.Droid.Views.Common;
-using FFImageLoading;
-using FFImageLoading.Views;
-using MvvmCross.Platforms.Android.Binding.Views;
+
+using Google.Android.Material.TextField;
 
 namespace EnterpriseTracker.Droid.Views.Orders
 {
     [Activity(Label = "")]
     public class OrderDetailView : BaseActivity<OrderDetailViewModel>
     {
-        Android.Support.V7.Widget.Toolbar _toolbar;
-        TextView _toolbarTitle;
+        AndroidX.AppCompat.Widget.Toolbar _toolbar;
 
-        LinearLayout _llContainer;
-
-        LinearLayout _llCategory, _llProduct, _llDateTime, _llMessgae, _llUnits, _llPrintList, _llPhotosList;
-        TextView _txtCategory, _txtProduct, _txtDateTime, _txtMessage, _txtUnits, _txtTotalValue;
-        EditText _etDateTime, _etMessage, _etUnits;
-        MvxSpinner _spnCategory, _spnProduct;
-        SfPicker _sfpCategories;
+        LinearLayout _llPrintList, _llPhotosList;
+        TextView  _txtTotalValue;
         Button _btnCreate;
+        TextInputEditText _etDateTime;
 
         DatePickerDialog _datePickerDialog;
         TimePickerDialog _timePickerDialog;
 
-        bool _isFirstLoad = true, _spnCatFirstLoad = true, _spnProdFirstLoad = true;
+        bool _isFirstLoad = true;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -50,8 +40,6 @@ namespace EnterpriseTracker.Droid.Views.Orders
             GetReferences();
 
             SetSupportActionBar(_toolbar);
-
-            _toolbarTitle.Text = "Details";
 
             ViewModel.PropertyChanged += ViewModel_PropertyChanged;
 
@@ -68,15 +56,15 @@ namespace EnterpriseTracker.Droid.Views.Orders
             }
         }
 
-        private void _sfpCategories_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
+        //private void _sfpCategories_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
 
-        }
+        //}
 
-        private void _sfpCategories_OnPickerLoaded(object sender, PickerViewEventsArgs e)
-        {
+        //private void _sfpCategories_OnPickerLoaded(object sender, PickerViewEventsArgs e)
+        //{
 
-        }
+        //}
 
         private void SetDateTimeDialog()
         {
@@ -110,20 +98,9 @@ namespace EnterpriseTracker.Droid.Views.Orders
 
         private void GetReferences()
         {
-            _toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
-            _toolbarTitle = FindViewById<TextView>(Resource.Id.toolbarTitle);
-            _llContainer = FindViewById<LinearLayout>(Resource.Id.llContainer);
+            _toolbar = FindViewById<AndroidX.AppCompat.Widget.Toolbar>(Resource.Id.toolbar);
             _btnCreate = FindViewById<Button>(Resource.Id.btnCreate);
-            _txtCategory = FindViewById<TextView>(Resource.Id.txtCategory);
-            _txtProduct = FindViewById<TextView>(Resource.Id.txtProduct);
-            _txtDateTime = FindViewById<TextView>(Resource.Id.txtDateTime);
-            _txtMessage = FindViewById<TextView>(Resource.Id.txtMessage);
-            _txtUnits = FindViewById<TextView>(Resource.Id.txtUnits);
-            _etDateTime = FindViewById<EditText>(Resource.Id.etDateTime);
-            _etMessage = FindViewById<EditText>(Resource.Id.etMessage);
-            _etUnits = FindViewById<EditText>(Resource.Id.etUnits);
-            _spnCategory = FindViewById<MvxSpinner>(Resource.Id.spnCategory);
-            _spnProduct = FindViewById<MvxSpinner>(Resource.Id.spnProduct);
+            _etDateTime = FindViewById<TextInputEditText>(Resource.Id.etDateTime);
             _txtTotalValue = FindViewById<TextView>(Resource.Id.txtTotalValue);
 
             _llPhotosList = FindViewById<LinearLayout>(Resource.Id.llPhotosList);

@@ -11,6 +11,7 @@ namespace EnterpriseTracker.Core.AppContents.Product.Contract.Dto
         public string Unit { get; set; }
         public float Price { get; set; }
         public ProductStatus Status { get; set; }
+        public bool Seasonal { get; set; }
         public bool IsVeg { get; set; }
         public override string ToString()
         {

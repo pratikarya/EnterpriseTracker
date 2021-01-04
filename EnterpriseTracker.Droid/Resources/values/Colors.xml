@@ -1,13 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <color name="colorPrimary">#243773</color>
-  <color name="colorPrimaryDark">#1f2e61</color>
-  <color name="colorAccent">#243773</color>
-  <color name="highlightColor">#243773</color>
+  <color name="colorPrimary">#FFFFFF</color>
+  <color name="colorPrimaryDark">#FFFFFF</color>
+  <color name="colorAccent">#431505</color>
+  <color name="highlightColor">#431505</color>
   <color name="textColor">#000000</color>
   <color name="textColorLightGray">#d3d3d3</color>
   <color name="textColorDarkGray">#f0f0f0</color>
   <color name="textColorWhite">#FFFFFF</color>
   <color name="greyBackgroundColor">#EFF0F5</color>
   <color name="colorPlaceholder">#808080</color>
+  <color name="disabledColor">#9D9FA2</color>
+  <color name="strokeColor">#FEC106</color>
+  <color name="confirmedColor">#329ACF</color>
+  <color name="cancelledColor">#CC0001</color>
+  <color name="completedColor">#C9CCC4</color>
+  <color name="preparingColor">#FCDE6D</color>
+  <color name="readyColor">#7DCE7F</color>
+  <color name="smoke_white">#FAFAFA</color>
 </resources>

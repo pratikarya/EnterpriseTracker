@@ -1,8 +1,9 @@
 ﻿using System;
-using Android;
+
 using Android.App;
 using Android.Content;
 using Android.Media;
+
 using EnterpriseTracker.Core.UI;
 using EnterpriseTracker.Droid.Utility;
 
@@ -71,6 +72,11 @@ namespace EnterpriseTracker.Droid.UI
                 noAction?.Invoke();
             });
             alert.Show();
+        }
+        
+        public void ShowToast(string message)
+        {
+            AndroidHUD.AndHUD.Shared.ShowToast(AndroidHelper.CurrentActivity, message);
         }
     }
 }

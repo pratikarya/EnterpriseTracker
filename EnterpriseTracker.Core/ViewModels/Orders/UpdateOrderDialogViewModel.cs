@@ -16,13 +16,8 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
 {
     public class UpdateOrderDialogViewModel : BaseViewModel<OrderDto, OrderDto>
     {
-        public IRealmService RealmService { get; set; }
-        public IUIService UIService { get; set; }
-
-        public UpdateOrderDialogViewModel(IRealmService realmService, IUIService uiService)
+        public UpdateOrderDialogViewModel()
         {
-            RealmService = realmService;
-            UIService = uiService;
         }
 
         public override void PrepareImpl(OrderDto param)

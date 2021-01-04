@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="EnterpriseTracker" Class="EnterpriseTrackerDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=et.database.windows.net;Initial Catalog=EnterpriseTracker;Persist Security Info=True;User ID=pratik" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="EnterpriseTrackerConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.tblCategory" Member="tblCategories">
+    <Type Name="tblCategory">
+      <Column Name="Id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Status" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="tblCategory_tblProduct" Member="tblProducts" ThisKey="Id" OtherKey="CategoryId" Type="tblProduct" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblUser" Member="tblUsers">
+    <Type Name="tblUser">
+      <Column Name="Id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="FirstName" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="LastName" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Email" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="PasswordHash" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Type" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Status" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="tblUser_tblOrder" Member="tblOrders" ThisKey="Id" OtherKey="OwnerId" Type="tblOrder" />
+      <Association Name="tblUser_tblOrder1" Member="tblOrders1" ThisKey="Id" OtherKey="CustomerId" Type="tblOrder" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblOrder" Member="tblOrders">
+    <Type Name="tblOrder">
+      <Column Name="Id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="OwnerId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="CustomerId" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="ProductId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="Unit" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="Time" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Message" Type="System.String" DbType="VarChar(1000)" CanBeNull="true" />
+      <Column Name="Details" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="PrintCharge" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="ExtraCharge" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="DesignCharge" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="DeliveryCharge" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="CarryBag" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Extra" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="ContactNumber" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
+      <Column Name="CreatedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="ModifiedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Status" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="tblOrder_tblOrder" Member="tblOrder2" ThisKey="Id" OtherKey="Id" Type="tblOrder" Cardinality="One" />
+      <Association Name="tblOrder_tblOrder" Member="tblOrder1" ThisKey="Id" OtherKey="Id" Type="tblOrder" IsForeignKey="true" />
+      <Association Name="tblUser_tblOrder" Member="tblUser" ThisKey="OwnerId" OtherKey="Id" Type="tblUser" IsForeignKey="true" />
+      <Association Name="tblUser_tblOrder1" Member="tblUser1" ThisKey="CustomerId" OtherKey="Id" Type="tblUser" IsForeignKey="true" />
+      <Association Name="tblProduct_tblOrder" Member="tblProduct" ThisKey="ProductId" OtherKey="Id" Type="tblProduct" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblProduct" Member="tblProducts">
+    <Type Name="tblProduct">
+      <Column Name="Id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="CategoryId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="Unit" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="Price" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="IsVeg" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Status" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="tblProduct_tblOrder" Member="tblOrders" ThisKey="Id" OtherKey="ProductId" Type="tblOrder" />
+      <Association Name="tblCategory_tblProduct" Member="tblCategory" ThisKey="CategoryId" OtherKey="Id" Type="tblCategory" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>

@@ -18,7 +18,7 @@ using System.Linq;
 
 namespace EnterpriseTracker.Core.RealmObjects.Order
 {
-    public class RealmService : BaseService, IRealmService
+    public class RealmService : BaseService, IOfflineService
     {
         public ResultDto<OrderDto> UpdateOrder(SearchDto<OrderDto> search)
         {
@@ -44,14 +44,14 @@ namespace EnterpriseTracker.Core.RealmObjects.Order
 
                         order.Id = newOrderId;
                         realmOrder.Id = newOrderId.ToString();
-                        realmOrder.CreatedDate = order.CreatedDate;
+                        realmOrder.CreatedDate = DateTime.Now;
                     }
                     else
                     {
                         realmOrder = realm.Find<OrderRealmDto>(order.Id.ToString());
                     }
 
-                    realmOrder.ModifiedDate = order.ModifiedDate;
+                    realmOrder.ModifiedDate = DateTime.Now;
                     realmOrder.ExtraCharge = order.ExtraCharge;
                     realmOrder.DeliveryCharge = order.DeliveryCharge;
                     realmOrder.DesignCharge = order.DesignCharge;
@@ -328,9 +328,9 @@ namespace EnterpriseTracker.Core.RealmObjects.Order
                 realmOrders = realm.All<OrderRealmDto>().ToList();
                 if (search.Date.HasValue)
                 {
-                    realmOrders = realmOrders.Where(x => x.Time.DayOfYear == search.Date.Value.DayOfYear).ToList();
+                    realmOrders = realmOrders.Where(x => x.Time.LocalDateTime.Date == search.Date.Value.Date).ToList();
                 }
-                var sortedRealmOrders = realmOrders.OrderByDescending(x => x.Time).ToList();
+                var sortedRealmOrders = realmOrders.OrderBy(x => x.Time.LocalDateTime).ToList();
                 List<OrderDto> orders = new List<OrderDto>();
                 foreach (var realmOrder in sortedRealmOrders)
                 {

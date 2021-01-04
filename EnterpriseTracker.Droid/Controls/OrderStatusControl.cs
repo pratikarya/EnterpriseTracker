@@ -2,7 +2,6 @@
 using Android.Content;
 using Android.Views;
 using Android.Widget;
-using MvvmCross.Localization;
 using System.Linq;
 using EnterpriseTracker.Droid.Utility;
 using EnterpriseTracker.Core.AppContents.Order.Contract.Dto;

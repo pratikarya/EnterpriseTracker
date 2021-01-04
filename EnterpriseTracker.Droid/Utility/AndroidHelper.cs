@@ -1,20 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Android.App;
-using Android.Content;
 using Android.Graphics;
-using Android.OS;
-using Android.Runtime;
-using Android.Support.V4.Content;
 using Android.Util;
-using Android.Views;
-using Android.Widget;
-using EnterpriseTracker.Droid.Controls;
+
 using MvvmCross;
 using MvvmCross.Platforms.Android;
 

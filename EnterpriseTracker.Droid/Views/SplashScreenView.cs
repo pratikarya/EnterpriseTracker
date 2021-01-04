@@ -1,10 +1,11 @@
 ﻿using Android.App;
-using MvvmCross.Droid.Support.V7.AppCompat;
+
+using MvvmCross.Platforms.Android.Views;
 
 namespace EnterpriseTracker.Droid.Views
 {
-    [Activity(MainLauncher = true, NoHistory = true, Theme = "@style/Splash", Label = "Enterprise Tracker")]
-    public class SplashScreenView : MvxSplashScreenAppCompatActivity
+    [Activity(MainLauncher = true, NoHistory = true, Theme = "@style/Theme.Splash", Label = "Enterprise Tracker")]
+    public class SplashScreenView : MvxSplashScreenActivity
     {
         public SplashScreenView() : base(Resource.Layout.splash_screen)
         {

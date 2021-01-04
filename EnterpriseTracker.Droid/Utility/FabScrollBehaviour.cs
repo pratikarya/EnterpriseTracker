@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
-using Android.OS;
+﻿using Android.Content;
 using Android.Runtime;
-using Android.Support.Design.Widget;
 using Android.Support.V4.View;
 using Android.Util;
 using Android.Views;
 using Android.Views.Animations;
-using Android.Widget;
+
+using AndroidX.CoordinatorLayout.Widget;
+
+using Google.Android.Material.FloatingActionButton;
 
 namespace EnterpriseTracker.Droid.Utility
 {

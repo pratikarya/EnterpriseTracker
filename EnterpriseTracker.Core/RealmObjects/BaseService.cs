@@ -12,6 +12,7 @@ using EnterpriseTracker.Core.Utility;
 using Realms;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EnterpriseTracker.Core.RealmObjects
 {
@@ -26,7 +27,25 @@ namespace EnterpriseTracker.Core.RealmObjects
                 SchemaVersion = Constants.RealmSchemaVersion
             };
         }
-        
+
+        private void OnMigration(Migration migration, ulong oldSchemaVersion)
+        {
+            //if(oldSchemaVersion == 3)
+            //{
+            //    var newOrders = migration.NewRealm.All<OrderRealmDto>();
+
+            //    var oldOrders = migration.OldRealm.All("OrderRealmDto");
+
+            //    for (var i = 0; i < newOrders.Count(); i++)
+            //    {
+            //        var oldOrder = oldOrders.ElementAt(i);
+            //        var newOrder = newOrders.ElementAt(i);
+
+            //        newOrder.FromShop = oldOrder.Owner == null;
+            //    }
+            //}
+        }
+
         public OrderDto ConvertToDto(OrderRealmDto realmOrder)
         {
             var order = new OrderDto();

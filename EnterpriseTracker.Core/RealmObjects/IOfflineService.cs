@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace EnterpriseTracker.Core.RealmObjects
 {
-    public interface IRealmService
+    public interface IOfflineService
     {
         ResultDto<CategoryDto> CreateCategory(SearchDto<CategoryDto> category);
         ResultDto<OrderDto> UpdateOrder(SearchDto<OrderDto> search);

@@ -38,11 +38,14 @@ namespace EnterpriseTracker.Core.AppContents.Order.Contract.Dto
         {
             get
             {
+                if (Product == null)
+                    return 0;
+
                 var totalAmount = PrintCharge + ExtraCharge + DeliveryCharge + DesignCharge + (Product.Price * Units);
-                if (Units == 0.5 & Product.Price == 600)
-                    totalAmount += 10;
+
                 if (CarryBag)
                     totalAmount += 10;
+
                 return totalAmount;
             }
         }
@@ -56,12 +59,11 @@ namespace EnterpriseTracker.Core.AppContents.Order.Contract.Dto
 
     public enum OrderStatus
     {
-        Invalid,
+        NotConfirmed,
         Confirmed,
         Preparing,
         Ready,
-        Delivered,
-        Successfull,
+        Completed,
         Cancelled
     }    
 }

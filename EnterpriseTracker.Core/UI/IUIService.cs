@@ -13,5 +13,7 @@ namespace EnterpriseTracker.Core.UI
         void ShowNotification(string title = "", string message = "", string icon = "");
 
         void ShowConfirmationDialog(Action yesAction, Action noAction, string message, string title = "Confirm");
+
+        void ShowToast(string message);
     }
 }

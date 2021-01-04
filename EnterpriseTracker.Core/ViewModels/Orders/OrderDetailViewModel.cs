@@ -22,13 +22,9 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
 {
     public class OrderDetailViewModel : BaseViewModel<OrderDto, OrderDto>
     {
-        public IRealmService RealmService { get; set; }
-        public IUIService UIService { get; set; }
-
-        public OrderDetailViewModel(IRealmService realmService, IUIService uiService)
+        public OrderDetailViewModel()
         {
-            RealmService = realmService;
-            UIService = uiService;
+            Title = "Details";
         }
 
         public bool IsNewOrder { get; set; }
@@ -207,9 +203,8 @@ namespace EnterpriseTracker.Core.ViewModels.Orders
                     //TODO : Proper order adding validations. For example id check, quantity check, product check, message check, etc.
                     if (ValidateOrder())
                     {
-                        if (IsNewOrder)
-                            CurrentOrder.CreatedDate = DateTime.Now;
-                        CurrentOrder.ModifiedDate = DateTime.Now;
+                        CurrentOrder.Time = CurrentOrder.Time;
+
                         var res = RealmService.UpdateOrder(new Core.Common.Contract.Dto.SearchDto<OrderDto>
                         {
                             RequestDto = CurrentOrder

@@ -1,15 +1,18 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Support.Design.Widget;
-using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
+
+using AndroidX.RecyclerView.Widget;
+
 using EnterpriseTracker.Core.ViewModels.Orders;
 using EnterpriseTracker.Droid.Adapters;
 using EnterpriseTracker.Droid.Views.Common;
-using MvvmCross.Droid.Support.V7.RecyclerView;
+
+using MvvmCross.DroidX.RecyclerView;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
+
 using System;
 
 namespace EnterpriseTracker.Droid.Views.Orders
@@ -21,8 +24,7 @@ namespace EnterpriseTracker.Droid.Views.Orders
         private MvxRecyclerView _rvOrders;
         private OrdersAdapter _adapterOrders;
 
-        private Android.Support.V7.Widget.Toolbar _toolbar;
-        private TextView _toolbarTitle;
+        private AndroidX.AppCompat.Widget.Toolbar _toolbar;
         private DatePickerDialog _datePickerDialog;
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -34,7 +36,6 @@ namespace EnterpriseTracker.Droid.Views.Orders
             GetReferences();
 
             SetSupportActionBar(_toolbar);
-            _toolbarTitle.Text = "Orders";
 
             var layoutManager = new LinearLayoutManager(this);
             layoutManager.Orientation = LinearLayoutManager.Vertical;
@@ -94,15 +95,14 @@ namespace EnterpriseTracker.Droid.Views.Orders
         public void OnClick(IDialogInterface dialog, int which)
         {
             _datePickerDialog.Dismiss();
-            ViewModel.SelectedDate = null;
+            ViewModel.SelectedDate = DateTime.Today;
         }
 
         private void GetReferences()
         {
-            _toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
-            _toolbarTitle = FindViewById<TextView>(Resource.Id.toolbarTitle);
+            _toolbar = FindViewById<AndroidX.AppCompat.Widget.Toolbar>(Resource.Id.toolbar);
             _rvOrders = FindViewById<MvxRecyclerView>(Resource.Id.rvOrders);
-            _llNoData = FindViewById<LinearLayout>(Resource.Id.llNoContent);
+            //_llNoData = FindViewById<LinearLayout>(Resource.Id.llNoContent);
         }
 
         private void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -112,12 +112,12 @@ namespace EnterpriseTracker.Droid.Views.Orders
                 if(ViewModel.Orders?.Count > 0)
                 {
                     _adapterOrders.NotifyDataSetChanged();
-                    _llNoData.Visibility = ViewStates.Gone;
+                    //_llNoData.Visibility = ViewStates.Gone;
                     _rvOrders.Visibility = ViewStates.Visible;
                 }
                 else
                 {
-                    _llNoData.Visibility = ViewStates.Visible;
+                    //_llNoData.Visibility = ViewStates.Visible;
                     _rvOrders.Visibility = ViewStates.Gone;
                 }
             }

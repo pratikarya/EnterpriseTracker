@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
+using EnterpriseTracker.Core.RealmObjects;
+using EnterpriseTracker.Core.Speech;
+using EnterpriseTracker.Core.TextProcess;
+using EnterpriseTracker.Core.UI;
 using MvvmCross;
 using MvvmCross.Navigation;
 using MvvmCross.Plugin.Messenger;
@@ -16,6 +20,22 @@ namespace EnterpriseTracker.Core.ViewModels.Common
 
         public IMvxNavigationService NavigationService { get { return Mvx.IoCProvider.Resolve<IMvxNavigationService>(); } }
         public IMvxMessenger Messenger { get { return Mvx.IoCProvider.Resolve<IMvxMessenger>(); } }
+        public IOfflineService RealmService { get { return Mvx.IoCProvider.Resolve<IOfflineService>(); } }
+        public IUIService UIService { get { return Mvx.IoCProvider.Resolve<IUIService>(); } }
+        public ISpeechService SpeechService { get { return Mvx.IoCProvider.Resolve<ISpeechService>(); } }
+        public ITextProcessor TextProcessor { get { return Mvx.IoCProvider.Resolve<ITextProcessor>(); } }
+
+        private string _title;
+        public string Title
+        {
+            get { return _title; }
+            set 
+            {
+                _title = value;
+                RaisePropertyChanged(() => Title);
+            }
+        }
+
 
         private void ReleaseUnmanagedResources()
         {

@@ -1,26 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
+
 using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
+
 using EnterpriseTracker.Core.ViewModels.Orders;
 using EnterpriseTracker.Droid.Fragments;
+
 using MvvmCross.Platforms.Android.Presenters;
-using MvvmCross.Platforms.Android.Views.Fragments;
 using MvvmCross.ViewModels;
 
 namespace EnterpriseTracker.Droid
 {
     public class PhonePresenter : MvxAndroidViewPresenter
     {
-        public Fragment CurrentFragment { get; set; }
+        public AndroidX.Fragment.App.DialogFragment CurrentFragment { get; set; }
 
         public PhonePresenter(IEnumerable<Assembly> androidViewAssemblies) : base(androidViewAssemblies)
         {

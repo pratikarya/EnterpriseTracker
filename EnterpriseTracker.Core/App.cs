@@ -34,7 +34,7 @@ namespace EnterpriseTracker.Core
         private void InitAppContents()
         {
             bool AppContentsInit = false;
-            var realmService = Mvx.IoCProvider.Resolve<IRealmService>();
+            var realmService = Mvx.IoCProvider.Resolve<IOfflineService>();
             AppContentsInit = !string.IsNullOrEmpty(realmService.GetValue("AppContentsInitKey"));
             if(!AppContentsInit)
             {
@@ -52,7 +52,7 @@ namespace EnterpriseTracker.Core
                             Name = "Chocolate Truffle",
                             Status = ProductStatus.Active,
                             IsVeg = true,
-                            Price = 600,
+                            Price = 700,
                             Unit = "kg"
                         },
 
@@ -62,7 +62,7 @@ namespace EnterpriseTracker.Core
                             Name = "Chocolate Caramel",
                             Status = ProductStatus.Active,
                             IsVeg = true,
-                            Price = 600,
+                            Price = 700,
                             Unit = "kg"
                         },
 
@@ -72,7 +72,7 @@ namespace EnterpriseTracker.Core
                             Name = "Chocolate Coffee",
                             Status = ProductStatus.Active,
                             IsVeg = true,
-                            Price = 600,
+                            Price = 700,
                             Unit = "kg"
                         },
 
@@ -82,7 +82,7 @@ namespace EnterpriseTracker.Core
                             Name = "Vanilla Caramel",
                             Status = ProductStatus.Active,
                             IsVeg = true,
-                            Price = 600,
+                            Price = 700,
                             Unit = "kg"
                         },
 
@@ -92,7 +92,7 @@ namespace EnterpriseTracker.Core
                             Name = "Pineapple",
                             Status = ProductStatus.Active,
                             IsVeg = true,
-                            Price = 600,
+                            Price = 700,
                             Unit = "kg"
                         },
 
@@ -102,7 +102,7 @@ namespace EnterpriseTracker.Core
                             Name = "Dutch Truffle",
                             Status = ProductStatus.Active,
                             IsVeg = true,
-                            Price = 700,
+                            Price = 800,
                             Unit = "kg"
                         },
 
@@ -112,7 +112,7 @@ namespace EnterpriseTracker.Core
                             Name = "Black Forest",
                             Status = ProductStatus.Active,
                             IsVeg = true,
-                            Price = 700,
+                            Price = 800,
                             Unit = "kg"
                         },
 
@@ -122,7 +122,7 @@ namespace EnterpriseTracker.Core
                             Name = "Fresh Fruit Cake",
                             Status = ProductStatus.Active,
                             IsVeg = true,
-                            Price = 700,
+                            Price = 800,
                             Unit = "kg"
                         },
 
@@ -132,7 +132,7 @@ namespace EnterpriseTracker.Core
                             Name = "Raspberry",
                             Status = ProductStatus.Active,
                             IsVeg = true,
-                            Price = 700,
+                            Price = 800,
                             Unit = "kg"
                         },
 
@@ -142,7 +142,7 @@ namespace EnterpriseTracker.Core
                             Name = "Blueberry",
                             Status = ProductStatus.Active,
                             IsVeg = true,
-                            Price = 700,
+                            Price = 800,
                             Unit = "kg"
                         },
 
@@ -152,7 +152,7 @@ namespace EnterpriseTracker.Core
                             Name = "White Forest",
                             Status = ProductStatus.Active,
                             IsVeg = true,
-                            Price = 700,
+                            Price = 800,
                             Unit = "kg"
                         },
 
@@ -162,7 +162,7 @@ namespace EnterpriseTracker.Core
                             Name = "Butterscotch",
                             Status = ProductStatus.Active,
                             IsVeg = true,
-                            Price = 700,
+                            Price = 800,
                             Unit = "kg"
                         },
 
@@ -172,7 +172,7 @@ namespace EnterpriseTracker.Core
                             Name = "Chocolate Crunch",
                             Status = ProductStatus.Active,
                             IsVeg = true,
-                            Price = 700,
+                            Price = 800,
                             Unit = "kg"
                         },
 
@@ -182,7 +182,7 @@ namespace EnterpriseTracker.Core
                             Name = "Chocolate Chips",
                             Status = ProductStatus.Active,
                             IsVeg = true,
-                            Price = 700,
+                            Price = 800,
                             Unit = "kg"
                         },
                         
@@ -192,7 +192,7 @@ namespace EnterpriseTracker.Core
                             Name = "Bubblegum Crunch",
                             Status = ProductStatus.Active,
                             IsVeg = true,
-                            Price = 700,
+                            Price = 800,
                             Unit = "kg"
                         },
 
@@ -202,7 +202,7 @@ namespace EnterpriseTracker.Core
                             Name = "Strawberry (Seasonal)",
                             Status = ProductStatus.Active,
                             IsVeg = true,
-                            Price = 700,
+                            Price = 800,
                             Unit = "kg"
                         },
 
@@ -212,7 +212,7 @@ namespace EnterpriseTracker.Core
                             Name = "Mango (Seasonal)",
                             Status = ProductStatus.Active,
                             IsVeg = true,
-                            Price = 700,
+                            Price = 800,
                             Unit = "kg"
                         },
 

@@ -33,6 +33,7 @@ namespace EnterpriseTracker.Core.RealmObjects.Order.Contract.Dto
         public int Status { get; set; }
         public IList<MediaRealmDto> MediaList { get; }
         public PrintRealmDto Print { get; set; }
+        public bool? FromShop { get; set; }
         public float TotalAmount
         {
             get
