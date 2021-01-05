@@ -24,7 +24,8 @@ namespace EnterpriseTracker.Core.RealmObjects
         {
             Config = new RealmConfiguration()
             {
-                SchemaVersion = Constants.RealmSchemaVersion
+                SchemaVersion = Constants.RealmSchemaVersion,
+                MigrationCallback = OnMigration
             };
         }
 
@@ -65,6 +66,8 @@ namespace EnterpriseTracker.Core.RealmObjects
             order.Units = realmOrder.Units;
             order.CarryBag = realmOrder.CarryBag;
             order.Extra = realmOrder.Extra;
+            order.Discount = realmOrder.Discount;
+            order.Source = (OrderSource)realmOrder.Source;
             order.ContactNumber = realmOrder.ContactNumber;
             if(realmOrder.Print != null)
                 order.Print = ConvertToDto(realmOrder.Print);

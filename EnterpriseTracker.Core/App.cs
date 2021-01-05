@@ -34,8 +34,9 @@ namespace EnterpriseTracker.Core
         private void InitAppContents()
         {
             bool AppContentsInit = false;
-            var realmService = Mvx.IoCProvider.Resolve<IOfflineService>();
-            AppContentsInit = !string.IsNullOrEmpty(realmService.GetValue("AppContentsInitKey"));
+            var offlineService = Mvx.IoCProvider.Resolve<IOfflineService>();
+            //offlineService.ClearOfflineDb();
+            AppContentsInit = !string.IsNullOrEmpty(offlineService.GetValue("AppContentsInitKey"));
             if(!AppContentsInit)
             {
                 var cakeCategory = new CategoryDto
@@ -247,9 +248,9 @@ namespace EnterpriseTracker.Core
                     Desc = "Almond and Cashew rocks."
                 };
 
-                realmService.CreateCategory(new SearchDto<CategoryDto> { RequestDto = cakeCategory });
-                realmService.CreateCategory(new SearchDto<CategoryDto> { RequestDto = chocolateCategory });
-                realmService.SetValue("AppContentsInitKey", "true");
+                offlineService.CreateCategory(new SearchDto<CategoryDto> { RequestDto = cakeCategory });
+                offlineService.CreateCategory(new SearchDto<CategoryDto> { RequestDto = chocolateCategory });
+                offlineService.SetValue("AppContentsInitKey", "true");
             }
         }
     }

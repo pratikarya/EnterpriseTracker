@@ -25,6 +25,7 @@ namespace EnterpriseTracker.Core.AppContents.Order.Contract.Dto
         public float ExtraCharge { get; set; }
         public float DeliveryCharge { get; set; }
         public float DesignCharge { get; set; }
+        public float Discount { get; set; }
         public bool CarryBag { get; set; }
         public bool Extra { get; set; }
         public double ContactNumber { get; set; }
@@ -33,6 +34,7 @@ namespace EnterpriseTracker.Core.AppContents.Order.Contract.Dto
         public OrderStatus Status { get; set; }
         public List<MediaDto> MediaList { get; set; }
         public PrintDto Print { get; set; }
+        public OrderSource Source { get; set; }
 
         public float TotalAmount
         {
@@ -65,5 +67,12 @@ namespace EnterpriseTracker.Core.AppContents.Order.Contract.Dto
         Ready,
         Completed,
         Cancelled
-    }    
+    }
+
+    public enum OrderSource
+    {
+        Home,
+        Shop,
+        Swiggy
+    }
 }

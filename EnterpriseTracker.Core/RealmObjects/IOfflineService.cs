@@ -15,5 +15,6 @@ namespace EnterpriseTracker.Core.RealmObjects
         ResultDto<List<CategoryDto>> GetCategories();
         string GetValue(string key);
         void SetValue(string key, string value);
+        void ClearOfflineDb();
     }
 }

@@ -61,6 +61,8 @@ namespace EnterpriseTracker.Core.RealmObjects.Order
                     realmOrder.PrintCharge = order.PrintCharge;
                     realmOrder.CarryBag = order.CarryBag;
                     realmOrder.Extra = order.Extra;
+                    realmOrder.Discount = order.Discount;
+                    realmOrder.Source = (int) order.Source;
                     realmOrder.ContactNumber = order.ContactNumber;
                     realmOrder.Status = (int)order.Status;
                     realmOrder.Time = order.Time;
@@ -205,31 +207,68 @@ namespace EnterpriseTracker.Core.RealmObjects.Order
                 var realm = Realm.GetInstance(Config);
                 realm.Write(() =>
                 {
-                    var realmCategory = new CategoryRealmDto();
+                    //realm.RemoveAll<CategoryRealmDto>();
+                    //realm.RemoveAll<OrderRealmDto>();
+                    //realm.RemoveAll<ProductRealmDto>();
+                    //realm.RemoveAll<GenericRealmDto>();
+                    //realm.RemoveAll<MediaRealmDto>();
+                    //realm.RemoveAll<PrintRealmDto>();
+                    //realm.RemoveAll<UserRealmDto>();
+
                     var allCategories = realm.All<CategoryRealmDto>().ToList();
-                    Guid newCategoryId;
-                    do
+
+                    CategoryRealmDto realmCategory = null;
+
+                    if(category.Id != Guid.Empty)
                     {
-                        newCategoryId = Guid.NewGuid();
+                        realmCategory = allCategories.FirstOrDefault(x => x.Id == category.Id.ToString());
                     }
-                    while (newCategoryId == Guid.Empty || allCategories.Any(x => x.Id == newCategoryId.ToString()));
-                    category.Id = newCategoryId;
-                    realmCategory.Id = newCategoryId.ToString();
+
+                    if(realmCategory == null)
+                    {
+                        realmCategory = new CategoryRealmDto();
+
+                        Guid newCategoryId;
+                        do
+                        {
+                            newCategoryId = Guid.NewGuid();
+                        }
+                        while (newCategoryId == Guid.Empty || allCategories.Any(x => x.Id == newCategoryId.ToString()));
+
+                        category.Id = newCategoryId;
+                        realmCategory.Id = newCategoryId.ToString();
+                    }    
+
                     realmCategory.Desc = category.Desc;
                     realmCategory.Name = category.Name;
                     realmCategory.Status = (int)category.Status;
+
                     foreach (var product in category.Products)
                     {
-                        var allProducts = realm.All<CategoryRealmDto>().ToList();
-                        var realmProduct = new ProductRealmDto();
-                        Guid newProductId;
-                        do
+                        var allProducts = realm.All<ProductRealmDto>().ToList();
+
+                        ProductRealmDto realmProduct = null;
+
+                        if (product.Id != Guid.Empty)
                         {
-                            newProductId = Guid.NewGuid();
+                            realmProduct = allProducts.FirstOrDefault(x => x.Id == product.Id.ToString());
                         }
-                        while (newProductId == Guid.Empty || allProducts.Any(x => x.Id == newProductId.ToString()));
-                        product.Id = newProductId;
-                        realmProduct.Id = newProductId.ToString();
+
+                        if (realmProduct == null)
+                        {
+                            realmProduct = new ProductRealmDto();
+
+                            Guid newProductId;
+                            do
+                            {
+                                newProductId = Guid.NewGuid();
+                            }
+                            while (newProductId == Guid.Empty || allProducts.Any(x => x.Id == newProductId.ToString()));
+
+                            product.Id = newProductId;
+                            realmProduct.Id = newProductId.ToString();
+                        }
+
                         realmProduct.Status = (int)product.Status;
                         realmProduct.IsVeg = product.IsVeg;
                         realmProduct.Name = product.Name;
@@ -380,6 +419,28 @@ namespace EnterpriseTracker.Core.RealmObjects.Order
                     gen.Value = value;
                 }
             });
+        }
+
+        public void ClearOfflineDb()
+        {
+            try
+            {
+                var realm = Realm.GetInstance(Config);
+                realm.Write(() =>
+                {
+                    realm.RemoveAll<CategoryRealmDto>();
+                    realm.RemoveAll<OrderRealmDto>();
+                    realm.RemoveAll<ProductRealmDto>();
+                    realm.RemoveAll<GenericRealmDto>();
+                    realm.RemoveAll<MediaRealmDto>();
+                    realm.RemoveAll<PrintRealmDto>();
+                    realm.RemoveAll<UserRealmDto>();
+                });
+            }
+            catch (Exception ex)
+            {
+                Mvx.IoCProvider.Resolve<IMvxLog>().Trace(ex, "", null);
+            }
         }
     }
 }
